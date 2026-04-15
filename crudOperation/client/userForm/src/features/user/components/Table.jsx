@@ -1,6 +1,8 @@
 import React from 'react'
 
-export default function Table() {
+export default function Table({ value, deleteMutation, singleViewMutation, setids }) {
+    console.log();
+
     return (
         <div className="card p-4 shadow">
             <h4 className="text-center mb-3">User List</h4>
@@ -15,38 +17,44 @@ export default function Table() {
                         <th>Actions</th>
                     </tr>
                 </thead>
-
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Nishant</td>
-                        <td>nishant@gmail.com</td>
-                        <td>9876543210</td>
-                        <td>
-                            <button className="btn btn-warning btn-sm me-2">
-                                Update
-                            </button>
-                            <button className="btn btn-danger btn-sm">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
+                    {
+                        value?.data?.length == 0
+                            ?
+                            <tr>
+                                <td colSpan={5}> User Not Found....</td>
+                            </tr>
 
-                    <tr>
-                        <td>2</td>
-                        <td>Rahul</td>
-                        <td>rahul@gmail.com</td>
-                        <td>9999999999</td>
-                        <td>
-                            <button className="btn btn-warning btn-sm me-2">
-                                Update
-                            </button>
-                            <button className="btn btn-danger btn-sm">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
+                            :
+                            value?.data?.map((value, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td>{value.user_id}</td>
+                                        <td>{value.user_name}</td>
+                                        <td>{value.user_email}</td>
+                                        <td>{value.user_mobile}</td>
+                                        <td>
+                                            <button
+                                                onClick={() => {
+                                                    singleViewMutation(value.user_id)
+                                                    setids(value.user_id)
+                                                }}
+                                                className="btn btn-warning btn-sm me-2">
+                                                Update
+                                            </button>
+                                            <button onClick={() => {
+                                                if (confirm("Are You Sure For Delete User ? ")) {
 
+                                                    deleteMutation(value.user_id)
+                                                }
+                                            }} className="btn btn-danger btn-sm">
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                    }
                 </tbody>
             </table>
         </div>
