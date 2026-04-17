@@ -17,8 +17,11 @@ export const commentService = async (data, postId) => {
     // console.log(res);
 }
 
-export const viewCommentService = async () => {
+export const viewCommentService = async (userId) => {
     const data = await commentModel.findAll({
+        where:{
+            userRegisterId:userId
+        },
         include: [
             {
                 model: userRegister,

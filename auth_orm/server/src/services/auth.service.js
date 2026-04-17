@@ -4,22 +4,48 @@ import jwt from "jsonwebtoken"
 import { hashPassword } from "../../../../final_auth/server/src/utils/hash.js";
 import { userRegister } from "../model/auth.model.js"
 import { orignalPassword } from "../utils/authPassword.util.js";
+import { walletModel } from "../model/wallet.model.js";
+import sequelize from "../config/db.js";
 export const authRegisterService = async (data) => {
-    const { userEmail } = data
-    const checkUser = await userRegister.findOne({
-        where: {
-            userEmail: userEmail
+    const t = await sequelize.transaction();
+    try {
+        const { userEmail } = data
+        const checkUser = await userRegister.findOne({
+            where: {
+                userEmail: userEmail
+            },
+            transaction: t
+        })
+        if (checkUser) {
+            throw new Error("User Already Exists....!!!")
         }
-    })
-    if (checkUser) {
-        throw new Error("User Already Exists....!!!")
+        const finalPassword = hashPassword(data.userConfirmPassword)
+        if (data) {
+            data['userPassword'] = finalPassword
+        }
+        const res = await userRegister.create(
+            data,
+            {
+                transaction:t
+            }
+        )
+        // console.log("res",res);
+
+        await walletModel.create(
+            {
+                userRegisterId: res.dataValues.id,
+                balance: 1000   // initial balance
+            },
+            {
+                transaction: t
+            }
+        );
+        await t.commit()
+        return res
+    } catch (error) {
+        await t.rollback()
+        throw error
     }
-    const finalPassword = hashPassword(data.userConfirmPassword)
-    if (data) {
-        data['userPassword'] = finalPassword
-    }
-    const res = await userRegister.create(data)
-    return res
 }
 
 

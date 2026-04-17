@@ -1,7 +1,7 @@
 import { postService } from "../services/post.service.js";
 
 export const postController = async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
 
     try {
        const data = await postService(req.body)

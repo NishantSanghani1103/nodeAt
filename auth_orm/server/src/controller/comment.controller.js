@@ -18,7 +18,8 @@ export const commentController = async (req, res) => {
 
 export const commnetViewController = async (req, res) => {
     try {
-        const data = await viewCommentService()
+        const { userId } = req.body
+        const data = await viewCommentService(userId)
         return res.status(200).json({
             status: true,
             message: "Comment Viewd Successfully....!!",

@@ -7,7 +7,7 @@ export const checkToken = (req, res, next) => {
         if (!token) {
             return res.status(401).json({
                 status: false,
-                message: "Please Fill The Token First....!!"
+                message: "Please Login First....!!"
             })
         }
         const userValue = jwt.verify(token, process.env.TOKENKEY)
