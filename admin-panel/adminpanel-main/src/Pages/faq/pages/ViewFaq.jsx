@@ -1,20 +1,102 @@
-import React from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react'
 import { FaFilter } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
+import { faqChangeStatusApi, faqDeleteApi, faqViewApi } from '../services/faq.service';
+import FaqTable from '../components/faqTable';
+import { toast, ToastContainer } from 'react-toastify';
+import ResponsivePagination from 'react-responsive-pagination';
+import 'react-responsive-pagination/themes/classic-light-dark.css';
+import { IoIosSearch } from 'react-icons/io';
 export default function ViewFaq() {
+  const [faqData, setfaqData] = useState([])
+  const [loading, setloading] = useState(true)
+  const [faqIds, setfaqIds] = useState([])
+  const [skip, setskip] = useState(1)
+  const [searchBox, setsearchBox] = useState(false)
+  const [totalPages, setTotalPages] = useState(0);
+  const [searchValue, setsearchValue] = useState("")
+  const limit = 3
+  const viewFaq = async () => {
+    try {
+      const res = await faqViewApi(skip, limit, searchValue)
+      setTotalPages(res?.data?.totalRecords)
+      setfaqData(res?.data?.data)
+      setloading(false)
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
+  const deleteFaq = async () => {
+    try {
+      if (faqIds.length == 0) {
+        return alert("Select Faq Items First....!!")
+      }
+      if (confirm("Are Want To Sure Delete Faq ? ")) {
+        const res = await faqDeleteApi(faqIds)
+        toast.success(res?.data?.message)
+        viewFaq()
+        setfaqIds([])
+      }
+
+    } catch (error) {
+      toast.error(error.response?.data?.message);
+
+    }
+
+  }
+
+  const changeStatus = async () => {
+    try {
+      if (faqIds.length == 0) {
+        return alert("Select Faq Items First....!!")
+      }
+      const res = await faqChangeStatusApi(faqIds)
+      toast.success(res?.data?.message)
+      viewFaq()
+      setfaqIds([])
+    } catch (error) {
+      toast.error(error.response?.data?.message);
+    }
+  }
+  useEffect(() => {
+    viewFaq()
+  }, [skip, searchValue])
+
+  useEffect(() => {
+    console.log(skip);
+
+  }, [skip])
   return (
     <>
+      {
+        searchBox
+        &&
+        <section className='max-w-full my-5 rounded-lg p-5' style={{ border: "1px solid #ccc" }}>
+          <div className='w-full'>
+            <form action="" className='flex items-center gap-1'>
+              <input type="text" onChange={(e) => setsearchValue(e.target.value)} placeholder='Search Name' className='border-1 p-2 w-[350px] rounded-sm bg-[#ffffff] border-[#ccc] h-[40px]' />
+
+              <div className='bg-blue-600 p-2 h-[40px] cursor-pointer w-[40px] rounded-sm flex justify-center items-center'>
+                <IoIosSearch className='text-white text-lg font-semibold' />
+              </div>
+            </form>
+          </div>
+        </section>
+      }
+      <ToastContainer />
       <section className='mt-5 max-w-full rounded-md  ' style={{ border: "1px solid #ccc" }} id='viewFaq'>
         <div className=' bg-slate-100 flex p-4 justify-between items-center form-heading'>
           <div className=''>
-            <h3 className='text-[26px] font-semibold'>View Country</h3>
+            <h3 className='text-[26px] font-semibold'>View Faq</h3>
           </div>
           <div className='flex items-center gap-2 mr-3'>
-            <div className='text-white font-bold w-[40px] h-[40px] rounded-sm flex justify-center items-center bg-blue-700'>
+            <div onClick={() => setsearchBox(!searchBox)} className='text-white font-bold w-[40px] h-[40px] rounded-sm flex justify-center items-center bg-blue-700'>
               <FaFilter className='' />
             </div>
-            <button className='bg-green-700 rounded-sm py-2 px-4 font-semibold text-sm text-white'>Change Status</button>
-            <button className='bg-red-700 rounded-sm py-2.5 px-5 font-semibold text-sm text-white'>Delete</button>
+            <button onClick={changeStatus} className='bg-green-700 rounded-sm py-2 px-4 font-semibold text-sm text-white'>Change Status</button>
+            <button className='bg-red-700 rounded-sm py-2.5 px-5 font-semibold text-sm text-white' onClick={deleteFaq}>Delete</button>
           </div>
         </div>
         <div className='form px-4 '>
@@ -36,34 +118,28 @@ export default function ViewFaq() {
               </tr>
             </thead>
             <tbody>
-              <tr className='bg-white  border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600'>
-                <td className='w-[3%] lg:py-12 sm:py-24'>
-                  <input type="checkbox" className='w-4 h-4' name="" id="" />
-                </td>
-                <td className='text-base font-semibold text-black '>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</td>
-                <td className='text-justify'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repudiandae adipisci explicabo molestias possimus quidem obcaecati deserunt vel, officiis, nobis facilis earum quaerat aut esse consequuntur ab praesentium eius suscipit natus!</td>
-                <td className='text-center'>1</td>
-                <td className=''><button className=' bg-gradient-to-r from-green-400 via-green-500 to-green-600 py-1.5 text-white font-semibold px-5 rounded-sm'>Active</button></td>
-                <td><button className=' flex justify-center items-center text-white bg-blue-500 w-[40px] h-[40px] rounded-[50%]'>
-                  <MdEdit className='text-[18px]' />
-                </button></td>
-              </tr>
-
-              <tr className='bg-white  border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600'>
-                <td className='w-[3%] lg:py-12 sm:py-24'>
-                  <input type="checkbox" className='w-4 h-4' name="" id="" />
-                </td>
-                <td className='text-base font-semibold text-black '>
-                Neil Sims</td>
-                <td className='text-justify'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repudiandae adipisci explicabo molestias possimus quidem obcaecati deserunt vel, officiis, nobis facilis earum quaerat aut esse consequuntur ab praesentium eius suscipit natus!</td>
-                <td className='text-center'>1</td>
-                <td className=''><button className=' bg-gradient-to-r from-red-400 via-red-500 to-red-600 py-1.5 text-white font-semibold px-5 rounded-sm'>Deactive</button></td>
-                <td><button className=' flex justify-center items-center text-white bg-blue-500 w-[40px] h-[40px] rounded-[50%]'>
-                  <MdEdit className='text-[18px]' />
-                </button></td>
-              </tr>
+              {
+                loading
+                  ?
+                  <tr>
+                    <td>Loading....!!</td>
+                  </tr>
+                  :
+                  faqData.length <= 0
+                    ?
+                    <tr className='bg-white  border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600'>
+                      <td colSpan={5} className='text-center py-2'>Faq Items Not Found....!!</td>
+                    </tr>
+                    :
+                    faqData.map((value, index) => <FaqTable key={value.id} value={value} setfaqIds={setfaqIds} faqIds={faqIds} />)
+              }
             </tbody>
           </table>
+          <ResponsivePagination
+            current={skip}
+            total={Math.ceil(totalPages / limit)}
+            onPageChange={setskip}
+          />
         </div>
       </section>
 

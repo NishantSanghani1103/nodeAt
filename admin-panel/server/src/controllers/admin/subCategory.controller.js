@@ -1,0 +1,49 @@
+import { subCategoryAddService, subCategoryViewService } from "../../services/admin/subCategory.service.js";
+
+export const subCategoryAddController = async (req, res) => {
+    try {
+        const { name, order, categoryId } = req.body
+        const obj = {
+            name,
+            order,
+            categoryId
+        }
+
+        if (req.file) {
+            if (req.file.filename) {
+                obj['image'] = req.file.filename
+            }
+        }
+
+        console.log(obj);
+
+        const data = await subCategoryAddService(obj)
+        return res.status(201).json({
+            status: true,
+            message: "Category Added Successfully....!!",
+            data
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: false,
+            message: error.message
+        })
+    }
+}
+
+export const subCategoryViewController = async (req, res) => {
+    try {
+
+        const data = await subCategoryViewService()
+        return res.status(200).json({
+            status: true,
+            message: "subCategory Viewd Successfully....!!",
+            data
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: false,
+            message: error.message
+        })
+    }
+}

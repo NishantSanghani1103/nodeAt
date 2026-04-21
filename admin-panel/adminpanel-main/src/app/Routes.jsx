@@ -208,8 +208,12 @@ export const routes = createBrowserRouter([
                         element: <AddFaq />
                     },
                     {
-                        path:"view",
-                        element:<ViewFaq/>
+                        path: "add/:id",
+                        element: <AddFaq />   // ➜ edit mode
+                    },
+                    {
+                        path: "view",
+                        element: <ViewFaq />
                     }
                 ]
             }

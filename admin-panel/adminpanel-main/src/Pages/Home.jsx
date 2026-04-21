@@ -27,23 +27,6 @@ import { HiOutlineOfficeBuilding } from "react-icons/hi";
 import { FaLock } from "react-icons/fa";
 export default function Home() {
 
-    // let [innerItems, setinnerItems] = useState(false)
-    // let [enquiryInnerItems, setenquiryInnerItems] = useState(false)
-    // let [colorInnterItems, setcolorInnerItems] = useState(false)
-    // let [materialsInnerItems, setmaterialsInnerItems] = useState(false)
-    // let [parentCategory, setparentCategory] = useState(false)
-    // let [subCategory, setsubCategory] = useState(false)
-    // let [subSubCategory, setsubSubCategory] = useState(false)
-    // let [products, setproducts] = useState(false)
-    // let [whyChoose, setwhyChoose] = useState(false)
-    // let [orders, setorders] = useState(false)
-    // let [sliders, setsliders] = useState(false)
-    // let [country, setcountry] = useState(false)
-    // let [testimonials, settestimonials] = useState(false)
-    // let [faq, setfaq] = useState(false)
-    // let [termsAndConditions, settermsAndConditions] = useState(false)
-
-
     let [dropdownMenu, setdropdownMenu] = useState(-1)
 
 
@@ -55,7 +38,7 @@ export default function Home() {
                 <div className={`h-screen lg:z-0 sm:z-999 overflow-y-scroll sm:fixed lg:static duration-1000 ${dashBoradMenu ? 'left-[0%]' : 'left-[-100%]'}  bg-gray-50`}>
                     <div className='border-b-1 border-gray-400 p-2 w-[95%] mx-auto sm:flex sm:justify-end lg:justify-center'>
                         <figure>
-                            <img src="/Images/wscube-tech-logo-2.svg" className='mx-auto mb-5 ' alt="" />
+                            <img src="/Images/ChatGPT Image Apr 21, 2026, 05_41_04 PM.png" className='mx-auto mb-5 ' alt="" />
 
                         </figure>
                         <IoCloseSharp className='text-3xl lg:hidden sm:block hidden' onClick={() => setdashBoradMenu(false)} />
@@ -73,9 +56,9 @@ export default function Home() {
 
                                         let { id, title, icon, innerIcon, innerTitle, link1, link2, innerTitle2 } = value
 
-                                        console.log(value)
+                                        // console.log(value)
                                         return (
-                                            <div className='maniItems'>
+                                            <div key={id} className='maniItems'>
                                                 <li className='flex items-center gap-2 cursor-pointer  hover:bg:rounded-2xl py-2 text-black font-medium lg:text-lg sm:text-sm' >
                                                     {icon}
                                                     <p className='w-full flex justify-between items-center' onClick={() => setdropdownMenu(dropdownMenu == id ? -1 : id)}>{title} {dropdownMenu == id ? <RiArrowDropUpLine className='text-[25px]' /> : <RiArrowDropDownLine className='text-[25px]' />}
@@ -94,199 +77,6 @@ export default function Home() {
                                         )
                                     })
                                 }
-
-
-                                {/* 
-                                <div className='maniItems'>
-                                    <li className='flex items-center gap-2  hover:bg:rounded-2xl py-2 text-black font-medium text-lg' >
-                                        <IoChatbox className='text-2xl' />
-                                        <Link className='w-full flex justify-between text-[16px] items-center' onClick={() => setdropdownMenu(dropdownMenu == 2 ? -1 : 2)}>Enquirys {dropdownMenu == 2 ? <RiArrowDropUpLine className='text-[25px] font-normal' /> : <RiArrowDropDownLine className='text-[25px]' />}
-                                        </Link>
-
-
-                                    </li>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 2 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/contact-enquiry'} className='w-full flex justify-between items-center font-semibold  text-[14px] '>Contact Enquirys
-                                        </Link>
-                                    </div>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 2 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/newslatter'} className='w-full flex justify-between items-center font-semibold  text-[14px] whitespace-nowrap'>Newsletterss
-                                        </Link>
-                                    </div>
-                                </div>
-
-                                <div className='maniItems'>
-                                    <li className='flex items-center gap-2  hover:bg:rounded-2xl py-2 text-black font-medium text-lg' >
-                                        <MdOutlineInvertColors className='text-2xl text-gray-600' />
-                                        <Link className='w-full flex justify-between text-[16px] items-center' onClick={() => setdropdownMenu(dropdownMenu == 3 ? -1 : 3)}>Colors {dropdownMenu == 3 ? <RiArrowDropUpLine className='text-[25px] font-normal text-gray-600' /> : <RiArrowDropDownLine className='text-[25px]' />}
-                                        </Link>
-
-
-                                    </li>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 3 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/addcolor'} className='w-full flex justify-between items-center font-semibold  text-[14px] '>Add Color
-                                        </Link>
-                                    </div>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 3 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/viewcolor'} className='w-full flex justify-between items-center font-semibold  text-[14px] whitespace-nowrap'>View Color
-                                        </Link>
-                                    </div>
-                                </div>
-
-                                <div className='maniItems'>
-                                    <li className='flex items-center gap-2  hover:bg:rounded-2xl py-2 text-black font-medium text-lg' >
-                                        <FaExpandArrowsAlt className=' text-gray-600' />
-                                        <Link className='w-full flex justify-between text-[16px] items-center' onClick={() => setdropdownMenu(dropdownMenu == 4 ? -1 : 4)}>Materials {dropdownMenu == 4 ? <RiArrowDropUpLine className='text-[25px] font-normal text-gray-600' /> : <RiArrowDropDownLine className='text-[25px]' />}
-                                        </Link>
-
-
-                                    </li>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 4 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/addmaterial'} className='w-full flex justify-between items-center font-semibold  text-[14px] '>Add Materials
-                                        </Link>
-                                    </div>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 4 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/viewmaterial'} className='w-full flex justify-between items-center font-semibold  text-[14px] whitespace-nowrap'>View Materials
-                                        </Link>
-                                    </div>
-                                </div>
-
-                                <div className='maniItems'>
-                                    <li className='flex items-center gap-2  hover:bg:rounded-2xl py-2 text-black font-medium text-lg' >
-                                        <RiMenu3Fill className=' text-gray-600 text-2xl' />
-                                        <Link className='w-full flex justify-between text-[16px] items-center' onClick={() => setdropdownMenu(dropdownMenu == 5 ? -1 : 5)}>Parent Categorys {dropdownMenu == 5 ? <RiArrowDropUpLine className='text-[25px] font-normal text-gray-600' /> : <RiArrowDropDownLine className='text-[25px]' />}
-                                        </Link>
-
-
-                                    </li>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 5 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/addcategory'} className='w-full flex justify-between items-center font-semibold  text-[14px] '>Add Category
-                                        </Link>
-                                    </div>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 5 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/viewcategory'} className='w-full flex justify-between items-center font-semibold  text-[14px] whitespace-nowrap'>View Category
-                                        </Link>
-                                    </div>
-                                </div>
-
-
-                                <div className='maniItems'>
-                                    <li className='flex items-center gap-2  hover:bg:rounded-2xl py-2 text-black font-medium text-lg' >
-                                        <RiMenu3Fill className=' text-gray-600 text-2xl' />
-                                        <Link className='w-full flex justify-between text-[16px] items-center' onClick={() => setdropdownMenu(dropdownMenu == 6 ? -1 : 6)}>Sub Categorys {dropdownMenu == 6 ? <RiArrowDropUpLine className='text-[25px] font-normal text-gray-600' /> : <RiArrowDropDownLine className='text-[25px]' />}
-                                        </Link>
-
-
-                                    </li>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 6 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/addsubcategory'} className='w-full flex justify-between items-center font-semibold  text-[14px] '>Add Sub Category
-                                        </Link>
-                                    </div>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 6 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/viewsubcategory'} className='w-full flex justify-between items-center font-semibold  text-[14px] whitespace-nowrap'>View Sub Category
-                                        </Link>
-                                    </div>
-                                </div>
-
-
-                                <div className='maniItems'>
-                                    <li className='flex items-center gap-2  hover:bg:rounded-2xl py-2 text-black font-medium text-lg' >
-                                        <RiMenu3Fill className=' text-gray-600 text-2xl' />
-                                        <Link className='w-full flex justify-between text-[16px] items-center' onClick={() => setdropdownMenu(dropdownMenu == 7 ? -1 : 7)}>Sub Sub Categorys {dropdownMenu == 7 ? <RiArrowDropUpLine className='text-[25px] font-normal text-gray-600' /> : <RiArrowDropDownLine className='text-[25px]' />}
-                                        </Link>
-
-
-                                    </li>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 7 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/addcolor'} className='w-full flex justify-between items-center font-semibold  text-[14px] '>Add Sub Sub Category
-                                        </Link>
-                                    </div>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 7 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/viewsubsubcategory'} className='w-full flex justify-between items-center font-semibold  text-[14px] whitespace-nowrap'>View Sub Sub Category
-                                        </Link>
-                                    </div>
-                                </div>
-
-                                <div className='maniItems'>
-                                    <li className='flex items-center gap-2  hover:bg:rounded-2xl py-2 text-black font-medium text-lg' >
-                                        <FaShoppingBag className=' text-[20px] text-gray-600 text-2xl' />
-                                        <Link className='w-full flex justify-between text-[16px] items-center' onClick={() => setdropdownMenu(dropdownMenu == 8 ? -1 : 8)}>Products {dropdownMenu == 8 ? <RiArrowDropUpLine className='text-[25px] font-normal text-gray-600' /> : <RiArrowDropDownLine className='text-[25px]' />}
-                                        </Link>
-
-
-                                    </li>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 8 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/addcolor'} className='w-full flex justify-between items-center font-semibold  text-[14px] '>Add Products
-                                        </Link>
-                                    </div>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 8 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/viewcolor'} className='w-full flex justify-between items-center font-semibold  text-[14px] whitespace-nowrap'>View Products
-                                        </Link>
-                                    </div>
-                                </div>
-
-
-                                <div className='maniItems'>
-                                    <li className='flex items-center gap-2  hover:bg:rounded-2xl py-2 text-black font-medium text-lg' >
-                                        <FaClockRotateLeft className=' text-[20px] text-gray-600 text-2xl' />
-                                        <Link className='w-full flex justify-between text-[16px] items-center' onClick={() => setdropdownMenu(dropdownMenu == 9 ? -1 : 9)}>Why Choose us {dropdownMenu == 9 ? <RiArrowDropUpLine className='text-[25px] font-normal text-gray-600' /> : <RiArrowDropDownLine className='text-[25px]' />}
-                                        </Link>
-
-
-                                    </li>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 9 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/addcolor'} className='w-full flex justify-between items-center font-semibold  text-[14px] '>Add Why Choose
-                                        </Link>
-                                    </div>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 9 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/viewcolor'} className='w-full flex justify-between items-center font-semibold  text-[14px] whitespace-nowrap'>View Why Choose
-                                        </Link>
-                                    </div>
-                                </div>
-
-
-                                <div className='maniItems'>
-                                    <li className='flex items-center gap-2  hover:bg:rounded-2xl py-2 text-black font-medium text-lg' >
-                                        <LuNotebookPen className=' text-[20px] text-gray-600 text-2xl' />
-                                        <Link className='w-full flex justify-between text-[16px] items-center' onClick={() => setdropdownMenu(dropdownMenu == 10 ? -1 : 10)}>Orders {dropdownMenu == 10 ? <RiArrowDropUpLine className='text-[25px] font-normal text-gray-600' /> : <RiArrowDropDownLine className='text-[25px]' />}
-                                        </Link>
-
-
-                                    </li>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 10 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/addcolor'} className='w-full flex justify-between items-center font-semibold  text-[14px] '>Orders
-                                        </Link>
-                                    </div>
-                                </div>
-
-                                <div className='maniItems'>
-                                    <li className='flex items-center gap-2  hover:bg:rounded-2xl py-2 text-black font-medium text-lg' >
-                                        <RiContactsFill className=' text-[20px] text-gray-600 text-2xl' />
-                                        <Link className='w-full flex justify-between text-[16px] items-center' onClick={() => setdropdownMenu(dropdownMenu == 11 ? -1 : 11)}>Testimonials {dropdownMenu == 11 ? <RiArrowDropUpLine className='text-[25px] font-normal text-gray-600' /> : <RiArrowDropDownLine className='text-[25px]' />}
-                                        </Link>
-
-
-                                    </li>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 11 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/addcolor'} className='w-full flex justify-between items-center font-semibold  text-[14px] '>Add Testimonials
-                                        </Link>
-                                    </div>
-                                    <div className={`flex  items-center gap-2 innetItems my-3 ${dropdownMenu == 11 ? '' : 'hidden'} `}>
-                                        <FaRegDotCircle /><Link to={'/addcolor'} className='w-full flex justify-between items-center font-semibold  text-[14px] '>View Testimonials
-                                        </Link>
-                                    </div>
-                                </div>
-
-
-                                <div className='maniItems'>
-                                    <li className='flex items-center gap-2  hover:bg:rounded-2xl py-2 text-black font-medium text-lg' >
-                                        <SlNotebook className=' text-[20px] text-gray-600 text-2xl' />
-                                        <Link className='w-full flex justify-between text-[16px] items-center' onClick={() => setdropdownMenu(dropdownMenu == 12 ? -1 : 12)}>Terms & Conditions {dropdownMenu == 12 ? <RiArrowDropUpLine className='text-[25px] font-normal text-gray-600' /> : <RiArrowDropDownLine className='text-[25px]' />}
-                                        </Link>
-
-
-                                    </li>
-                                </div> */}
 
                             </ul>
                         </nav>
