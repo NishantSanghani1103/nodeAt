@@ -1,4 +1,4 @@
-import { subCategoryAddService, subCategoryViewService } from "../../services/admin/subCategory.service.js";
+import { subCategoryAddService, subCategoryCategoryViewService, subCategoryViewService } from "../../services/admin/subCategory.service.js";
 
 export const subCategoryAddController = async (req, res) => {
     try {
@@ -8,14 +8,15 @@ export const subCategoryAddController = async (req, res) => {
             order,
             categoryId
         }
-
+        // console.log(obj);
+        
         if (req.file) {
             if (req.file.filename) {
                 obj['image'] = req.file.filename
             }
         }
 
-        console.log(obj);
+        // console.log(obj);
 
         const data = await subCategoryAddService(obj)
         return res.status(201).json({
@@ -38,6 +39,25 @@ export const subCategoryViewController = async (req, res) => {
         return res.status(200).json({
             status: true,
             message: "subCategory Viewd Successfully....!!",
+            staticPath: process.env.SUB_CATEGORY_STATICPATH,
+            data
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: false,
+            message: error.message
+        })
+    }
+}
+
+export const subCategoryCategoryViewController = async (req, res) => {
+    try {
+        const { categoryId } = req.params
+        const data = await subCategoryCategoryViewService(categoryId)
+        return res.status(200).json({
+            status: true,
+            message: "subCategory Viewd Successfully....!!",
+            staticPath: process.env.SUB_CATEGORY_STATICPATH,
             data
         })
     } catch (error) {

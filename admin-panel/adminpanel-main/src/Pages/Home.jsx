@@ -59,7 +59,7 @@ export default function Home() {
                                         // console.log(value)
                                         return (
                                             <div key={id} className='maniItems'>
-                                                <li className='flex items-center gap-2 cursor-pointer  hover:bg:rounded-2xl py-2 text-black font-medium lg:text-lg sm:text-sm' >
+                                                <li className='flex items-center gap-2 cursor-pointer  hover:bg:rounded-2xl py-2 text-black font-medium lg:text-[16px] sm:text-sm' >
                                                     {icon}
                                                     <p className='w-full flex justify-between items-center' onClick={() => setdropdownMenu(dropdownMenu == id ? -1 : id)}>{title} {dropdownMenu == id ? <RiArrowDropUpLine className='text-[25px]' /> : <RiArrowDropDownLine className='text-[25px]' />}
                                                     </p>

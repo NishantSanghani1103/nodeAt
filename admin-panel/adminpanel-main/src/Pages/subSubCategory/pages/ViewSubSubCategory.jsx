@@ -1,9 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaFilter } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
+import SubSubCategoryTable from '../components/SubSubCategoryTable';
+import { toast, ToastContainer } from 'react-toastify';
+import { getSubSubCategoryApi } from '../services/subSubCategoryApi';
 export default function ViewSubSubCategory() {
+    const [subSubCategoryData, setsubSubCategoryData] = useState([])
+    const [subSubCategoryStaticPath, setsubSubCategoryStaticPath] = useState("")
+    const subSubCategoryView = async () => {
+        try {
+            const res = await getSubSubCategoryApi()
+            setsubSubCategoryData(res?.data?.data)
+            setsubSubCategoryStaticPath(res?.data?.staticPath)
+        } catch (error) {
+            toast.error(error?.response?.data?.message)
+        }
+    }
+    useEffect(() => {
+        subSubCategoryView()
+    }, [])
     return (
         <>
+            <ToastContainer />
             <section className='mt-5 max-w-full rounded-md  ' style={{ border: "1px solid #ccc" }} id='viewSubSubCategory'>
                 <div className=' bg-slate-100 flex p-4 justify-between items-center form-heading'>
                     <div className=''>
@@ -38,22 +56,10 @@ export default function ViewSubSubCategory() {
                             </tr>
                         </thead>
                         <tbody>
+                            {
+                                subSubCategoryData.map((value, index) => <SubSubCategoryTable key={value.id} value={value} subSubCategoryStaticPath={subSubCategoryStaticPath} />)
+                            }
 
-
-                            <tr className='bg-white  border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600'>
-                                <td className='w-[3%] py-7'>
-                                    <input type="checkbox" className='w-4 h-4' name="" id="" />
-                                </td>
-                                <td className='text-base font-semibold text-black '>Men</td>
-                                <td className='text-base font-semibold text-black '>Men</td>
-                                <td className='text-base font-semibold text-black '>Shoe</td>
-                                <td><img src="https://packshifts.in/images/iso.png" width={40} height={40} alt="" /></td>
-                                <td className='text-start'>1</td>
-                                <td className=''><button className=' bg-gradient-to-r from-green-400 via-green-500 to-green-600 py-1.5 text-white font-semibold px-5 rounded-sm'>Active</button></td>
-                                <td><button className=' flex justify-center items-center text-white bg-blue-500 w-[40px] h-[40px] rounded-[50%]'>
-                                    <MdEdit className='text-[18px]' />
-                                </button></td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>

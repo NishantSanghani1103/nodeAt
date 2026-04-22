@@ -97,7 +97,7 @@ export const faqStatusService = async (faqId) => {
         }
         const [count] = await faqModel.update(
             {
-                status: Sequelize.literal("NOT status"), // 🔥 toggle
+                status: Sequelize.literal("NOT status"), //  toggle
             },
             {
                 where: {

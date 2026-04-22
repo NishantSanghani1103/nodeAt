@@ -1,7 +1,9 @@
 import express from "express"
+import { subCategoryAddController, subCategoryCategoryViewController, subCategoryViewController } from "../../controllers/admin/subCategory.controller.js"
 import { uploads } from "../../utils/multer.util.js"
-import { subCategoryAddController, subCategoryViewController } from "../../controllers/admin/subCategory.controller.js"
+import { subCategoryValidator } from "../../validators/admin/subCategory.validator.js"
 const subCategoryRoutes = express.Router()
-subCategoryRoutes.post('/add', uploads.single("image"), subCategoryAddController)
-subCategoryRoutes.get("/view",subCategoryViewController)
+subCategoryRoutes.post('/add', uploads("subCategory").single("image"), subCategoryValidator, subCategoryAddController)
+subCategoryRoutes.get("/view", subCategoryViewController)
+subCategoryRoutes.get("/view/:categoryId", subCategoryCategoryViewController)
 export default subCategoryRoutes

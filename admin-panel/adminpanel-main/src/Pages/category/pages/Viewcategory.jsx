@@ -1,7 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaFilter } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
+import CategoryTable from '../components/CategoryTable';
+import { toast } from 'react-toastify';
+import { getCategoryApi } from '../services/categoryApi';
 export default function Viewcategory() {
+    const [categoryData, setcategoryData] = useState([])
+    const [staticPath, setstaticPath] = useState("")
+    const viewCategory = async () => {
+        try {
+            const res = await getCategoryApi()
+            setcategoryData(res?.data?.data)
+            setstaticPath(res?.data?.staticPath)
+        } catch (error) {
+            toast.error(error?.response?.data?.message)
+        }
+    }
+
+    useEffect(() => {
+        viewCategory()
+    }, [])
     return (
         <>
             <section className='mt-5 max-w-full rounded-md  ' style={{ border: "1px solid #ccc" }} id='viewCategory'>
@@ -36,31 +54,11 @@ export default function Viewcategory() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className='bg-white  border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600'>
-                                <td className='w-[3%] py-7'>
-                                    <input type="checkbox" className='w-4 h-4' name="" id="" />
-                                </td>
-                                <td className='text-base font-semibold text-black '>Neil Sims</td>
-                                <td><img src="https://packshifts.in/images/iso.png" width={40} height={40}  alt="" /></td>
-                                <td className='text-start'>1</td>
-                                <td className=''><button className=' bg-gradient-to-r from-green-400 via-green-500 to-green-600 py-1.5 text-white font-semibold px-5 rounded-sm'>Active</button></td>
-                                <td><button className=' flex justify-center items-center text-white bg-blue-500 w-[40px] h-[40px] rounded-[50%]'>
-                                    <MdEdit className='text-[18px]' />
-                                </button></td>
-                            </tr>
+                            {
+                                categoryData.map((value, index) => <CategoryTable value={value} key={value.id} staticPath={staticPath} />)
+                            }
 
-                            <tr className='bg-white  border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600'>
-                                <td className='w-[3%] py-7'>
-                                    <input type="checkbox" className='w-4 h-4' name="" id="" />
-                                </td>
-                                <td className='text-base font-semibold text-black '>Neil Sims</td>
-                                <td><img src="https://packshifts.in/images/iso.png" width={40} height={40}  alt="" /></td>
-                                <td className='text-start'>1</td>
-                                <td className=''><button className=' bg-gradient-to-r from-red-400 via-red-500 to-red-600 py-1.5 text-white font-semibold px-5 rounded-sm'>Deactive</button></td>
-                                <td><button className=' flex justify-center items-center text-white bg-blue-500 w-[40px] h-[40px] rounded-[50%]'>
-                                    <MdEdit className='text-[18px]' />
-                                </button></td>
-                            </tr>
+
                         </tbody>
                     </table>
                 </div>

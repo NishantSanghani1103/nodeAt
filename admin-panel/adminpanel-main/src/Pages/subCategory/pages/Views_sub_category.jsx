@@ -1,7 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaFilter } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
+import SubCategoryTable from '../components/SubCategoryTable';
+import { getSubCategoryApi } from '../services/subCategoryApi';
 export default function Views_sub_category() {
+    const [subCategoryData, setsubCategoryData] = useState([])
+    const [subCategoryStaticPath, setsubCategoryStaticPath] = useState("")
+    const subCategoryView = async () => {
+        try {
+            const res = await getSubCategoryApi()
+            console.log(res?.data?.data);
+            setsubCategoryData(res?.data?.data)
+            setsubCategoryStaticPath(res?.data?.staticPath)
+
+        } catch (error) {
+            console.log(error?.response?.data?.message);
+
+        }
+    }
+
+    useEffect(() => {
+        subCategoryView()
+    }, [])
     return (
         <>
             <section className='mt-5 max-w-full rounded-md  ' style={{ border: "1px solid #ccc" }} id='viewSubCategory'>
@@ -37,21 +57,11 @@ export default function Views_sub_category() {
                             </tr>
                         </thead>
                         <tbody>
+                            {
+                                subCategoryData.map((value, index) => <SubCategoryTable key={value.id} value={value} subCategoryStaticPath={subCategoryStaticPath} />)
+                            }
 
 
-                            <tr className='bg-white  border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600'>
-                                <td className='w-[3%] py-7'>
-                                    <input type="checkbox" className='w-4 h-4' name="" id="" />
-                                </td>
-                                <td className='text-base font-semibold text-black '>Shoe</td>
-                                <td className='text-base font-semibold text-black '>Men</td>
-                                <td><img src="https://packshifts.in/images/iso.png" width={40} height={40} alt="" /></td>
-                                <td className='text-start'>1</td>
-                                <td className=''><button className=' bg-gradient-to-r from-green-400 via-green-500 to-green-600 py-1.5 text-white font-semibold px-5 rounded-sm'>Active</button></td>
-                                <td><button className=' flex justify-center items-center text-white bg-blue-500 w-[40px] h-[40px] rounded-[50%]'>
-                                    <MdEdit className='text-[18px]' />
-                                </button></td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>

@@ -21,7 +21,6 @@ export const categoryModel = sequelize.define("category", {
     order: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        unique: true,
         validate: {
             isInt: true
         }

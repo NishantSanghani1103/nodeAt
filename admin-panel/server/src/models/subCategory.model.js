@@ -22,7 +22,6 @@ export const subCategoryModel = sequelize.define("subcategory", {
     name: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
         validate: {
             len: [2, 252]
         }
@@ -30,7 +29,6 @@ export const subCategoryModel = sequelize.define("subcategory", {
     order: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        unique: true,
         validate: {
             isInt: true
         }
@@ -40,5 +38,15 @@ export const subCategoryModel = sequelize.define("subcategory", {
         defaultValue: true
     }
 }, {
-    timestamps: true
+    timestamps: true,
+    indexes: [
+        {
+            unique: true,
+            fields: ["name", "categoryId"]
+        },
+        {
+            unique: true,
+            fields: ["order", "categoryId"]
+        }
+    ]
 });

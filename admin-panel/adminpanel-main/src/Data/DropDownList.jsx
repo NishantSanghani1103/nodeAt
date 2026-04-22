@@ -59,7 +59,7 @@ export let dropDownData = [
     },
     {
         id: 5,
-        title: "Parent Categorys",
+        title: "Parent Categories",
         icon:  <RiMenu3Fill className=' text-gray-600 text-2xl' />,
         innerIcon: < FaRegDotCircle/>,
         innerTitle: "Add Category",
@@ -69,7 +69,7 @@ export let dropDownData = [
     },
     {
         id: 6,
-        title: "Sub Categorys",
+        title: "Sub Categories",
         icon: <RiMenu3Fill className=' text-gray-600 text-2xl' />,
         innerIcon: < FaRegDotCircle/>,
         innerTitle: "Add Sub Category",
@@ -79,7 +79,7 @@ export let dropDownData = [
     },
     {
         id: 7,
-        title: "Sub Sub Categorys",
+        title: "Sub Sub Categories",
         icon: <RiMenu3Fill className=' text-gray-600 text-2xl' />,
         innerIcon: < FaRegDotCircle/>,
         innerTitle: "Add Sub Sub Category",
