@@ -1,4 +1,7 @@
 import { categoryModel } from "./category.model.js";
+import { colorModel } from "./color.model.js";
+import { materialModel } from "./material.model.js";
+import { productModel } from "./product.model.js";
 import { subCategoryModel } from "./subCategory.model.js";
 import { subSubCategoryModel } from "./subSubCategory.model.js";
 
@@ -33,4 +36,69 @@ subSubCategoryModel.belongsTo(subCategoryModel, {
     foreignKey: "subCategoryId"
 })
 
-export { categoryModel, subCategoryModel, subSubCategoryModel }
+
+// for the products...
+
+categoryModel.hasMany(productModel, {
+    as: "products",
+    foreignKey: "categoryId",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE"
+})
+
+productModel.belongsTo(categoryModel, {
+    as: "category",
+    foreignKey: "categoryId"
+})
+
+
+subCategoryModel.hasMany(productModel, {
+    as: "products",
+    foreignKey: "subCategoryId",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE"
+})
+
+productModel.belongsTo(subCategoryModel, {
+    as: "subCategory",
+    foreignKey: "subCategoryId"
+})
+
+subSubCategoryModel.hasMany(productModel, {
+    as: "products",
+    foreignKey: "subSubCategoryId",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE"
+})
+
+productModel.belongsTo(subSubCategoryModel, {
+    as: "subSubCategory",
+    foreignKey: "subSubCategoryId"
+})
+
+
+materialModel.hasMany(productModel, {
+    as: "products",
+    foreignKey: "materialId",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE"
+})
+
+productModel.belongsTo(materialModel, {
+    as: "material",
+    foreignKey: "materialId"
+})
+
+
+colorModel.hasMany(productModel, {
+    as: "products",
+    foreignKey: "colorId",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE"
+})
+
+productModel.belongsTo(colorModel, {
+    as: "color",
+    foreignKey: "colorId"
+})
+export { categoryModel, subCategoryModel, subSubCategoryModel, productModel }

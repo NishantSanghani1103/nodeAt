@@ -16,7 +16,7 @@ export default function ViewFaq() {
   const [searchBox, setsearchBox] = useState(false)
   const [totalPages, setTotalPages] = useState(0);
   const [searchValue, setsearchValue] = useState("")
-  const limit = 3
+  const limit = 4
   const viewFaq = async () => {
     try {
       const res = await faqViewApi(skip, limit, searchValue)

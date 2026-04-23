@@ -1,9 +1,10 @@
 import env from "dotenv"
-
+env.config()
 import app from "./src/app.js"
 import { sequelize } from "./src/config/db.js";
-env.config()
 const port = process.env.PORT
+
+
 sequelize.sync()
     .then(() => {
         console.log("Database Conneted");

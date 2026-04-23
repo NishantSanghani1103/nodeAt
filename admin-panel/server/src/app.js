@@ -1,6 +1,6 @@
 import express from "express"
 import cors from "cors"
-import adminRoutes from "./routes/admin/admin.routes.js"
+import adminRoutes from "./routes/adminRoutes/admin.routes.js"
 const app = express()
 app.use(cors())
 app.use(express.json())
