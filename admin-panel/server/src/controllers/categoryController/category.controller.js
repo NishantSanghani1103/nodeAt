@@ -36,7 +36,7 @@ export const categoryAddController = async (req, res) => {
 export const categoryViewController = async (req, res) => {
     try {
         const data = await categoryViewService()
-        return res.status(201).json({
+        return res.status(200).json({
             status: true,
             message: "Category Viewd Successfully....!!",
             staticPath: process.env.CATEGORY_STATICPATH,

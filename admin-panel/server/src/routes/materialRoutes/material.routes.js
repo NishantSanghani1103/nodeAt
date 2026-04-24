@@ -1,5 +1,5 @@
 import express from "express"
-import { materailValidator } from "../../validators/admin/materail.validator.js"
+import { materailValidator } from "../../validators/materialValidator/materail.validator.js"
 import { materialAddController, materialViewController } from "../../controllers/materialController/material.controller.js"
 const materialRoutes = express.Router()
 materialRoutes.post("/add", materailValidator, materialAddController)

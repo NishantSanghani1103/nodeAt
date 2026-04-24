@@ -22,7 +22,9 @@ export default function CategoryForm() {
                 navigate('/category/view')
             },2000)
         } catch (error) {
-            toast.error(error?.response?.data?.message)
+            console.log(error);
+            
+            toast.error(error?.response?.data?.message ?? error.message)
         }
     }
     useEffect(() => {

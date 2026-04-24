@@ -1,7 +1,8 @@
 import express from "express"
 
-import { colorValidator } from "../../validators/admin/color.validator.js"
+
 import { colorAddContriller, colorViewController } from "../../controllers/colorController/color.controller.js"
+import { colorValidator } from "../../validators/colorValidator/color.validator.js"
 const colorRoutes = express.Router()
 colorRoutes.post("/add",colorValidator, colorAddContriller)
 colorRoutes.get("/view",colorViewController)

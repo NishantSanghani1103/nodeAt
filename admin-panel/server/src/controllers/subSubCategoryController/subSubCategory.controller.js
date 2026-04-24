@@ -1,4 +1,4 @@
-import { subSubCategoryAddService, subSubCategoryViewService } from "../../services/subSubCategoryServices/subSubCategory.service.js"
+import { subSubCategoryAddService, subSubCategorySubVieService, subSubCategoryViewService } from "../../services/subSubCategoryServices/subSubCategory.service.js"
 
 export const subSubCategoryAddController = async (req, res) => {
     try {
@@ -40,6 +40,24 @@ export const subSubCategoryViewController = async (req, res) => {
             status: true,
             staticPath: process.env.SUB_SUB_CATEGORY_STATICPATH,
             message: "Sub Sub Category Viewd Successfully....!!",
+            data
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: false,
+            message: error.message
+        })
+    }
+}
+
+export const subSubCategorySubViewController = async (req, res) => {
+    try {
+        const { subCategoryId } = req.params
+        const data = await subSubCategorySubVieService(subCategoryId)
+
+        return res.status(200).json({
+            status: true,
+            message: "Sub Sub Category Viewd Successfully",
             data
         })
     } catch (error) {

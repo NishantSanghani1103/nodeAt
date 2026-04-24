@@ -1,7 +1,7 @@
 import express from "express"
 import { productAddController, productViewController } from "../../controllers/productController/product.controller.js"
 import { uploads } from "../../utils/multer.util.js"
-import { productValidator } from "../../validators/admin/product.validator.js"
+import { productValidator } from "../../validators/productValidator/product.validator.js"
 const productRoutes = express.Router()
 productRoutes.post("/add", uploads("product").fields([
     { name: "image", maxCount: 1 },

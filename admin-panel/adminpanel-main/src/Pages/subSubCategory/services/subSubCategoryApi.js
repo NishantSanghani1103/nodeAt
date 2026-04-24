@@ -16,3 +16,7 @@ export const subCategoryCategoryGetApi = (categoryId) => {
 export const subSubCategoryAddApi = (data) => {
     return api.post("/sub-sub-category/add", data)
 }
+
+export const subSubCategorySubViewApi = (subCategoryId) => {
+    return api.get(`/sub-sub-category/view/${subCategoryId}`)
+}

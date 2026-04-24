@@ -47,7 +47,7 @@ export const subSubCategoryAddService = async (data) => {
 
         return {
             status: true,
-            dataRes:res
+            dataRes: res
         }
 
     } catch (error) {
@@ -77,3 +77,35 @@ export const subSubCategoryViewService = async () => {
     }
 }
 
+export const subSubCategorySubVieService = async (subCategoryId) => {
+    try {
+        const res = await subSubCategoryModel.findAll({
+            where: {
+                subCategoryId
+            },
+            attributes: {
+                exclude: [
+                    "subCategoryId",
+                    "categoryId"
+                ]
+            },
+
+            include: [
+                {
+                    model: subCategoryModel,
+                    as: "subCategory",
+                    attributes: ["id", "name"]
+                },
+                {
+                    model: categoryModel,
+                    as: "category",
+                    attributes:["id","name"]
+                }
+            ]
+        })
+
+        return res
+    } catch (error) {
+        throw error
+    }
+}

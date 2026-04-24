@@ -1,6 +1,7 @@
 import express from "express"
 import { faqAddController, faqDeleteController, faqSingleViewController, faqStatusController, faqUpdateController, faqViewController } from "../../controllers/faqController/faq.controller.js"
-import { faqValidator } from "../../validators/admin/faq.validator.js"
+import { faqValidator } from "../../validators/faqValidator/faq.validator.js"
+
 const faqRoutes = express.Router()
 faqRoutes.post("/add", faqValidator, faqAddController)
 faqRoutes.get("/view", faqViewController)

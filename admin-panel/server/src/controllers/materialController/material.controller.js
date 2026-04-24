@@ -25,9 +25,9 @@ export const materialAddController = async (req, res) => {
 export const materialViewController = async (req, res) => {
     try {
         const data = await materialViewService()
-        return res.status(201).json({
+        return res.status(200).json({
             status: true,
-            message: "Material Added Successfully....!!",
+            message: "Material Viewd Successfully....!!",
             data
         })
     } catch (error) {

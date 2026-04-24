@@ -45,6 +45,7 @@ export const productViewController = async (req, res) => {
         const data = await productViewService()
         return res.status(200).json({
             status: true,
+            staticPath:process.env.PRODUCT_STATICPATH,
             message: "Product Viewd Successfully....!!",
             data
         })
