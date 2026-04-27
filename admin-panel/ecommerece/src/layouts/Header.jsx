@@ -1,15 +1,31 @@
 import { Heart, Search, ShoppingCart, User } from 'lucide-react'
-import React, { useEffect } from 'react'
-import { useAuth } from '../utils/user.utils'
+import React, { use, useEffect } from 'react'
+import { useAuth, useCart } from '../utils/user.utils'
+import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { fetchCart } from '../features/cart/cartSlice'
+import { logOut } from '../features/auth/authSlice'
 
 export default function Header() {
-    // const user = useAuth()
+    const { user } = useAuth()
+    const dispatch = useDispatch()
     // useEffect(() => {
     //     console.log(user);
     // }, [user])
 
+    const { cart } = useCart()
+    console.log(cart);
+
+    useEffect(() => {
+        if (user) {
+            dispatch(fetchCart())
+        }
+        // console.log("user chened");
+
+    }, [user])
+
     return (
-        <header className="w-full shadow-md bg-white">
+        <header className="w-full shadow-md bg-white sticky top-0 ">
 
             {/* Top Bar */}
             <div className="bg-gray-900 text-white text-sm py-2 px-6 flex justify-between">
@@ -38,18 +54,36 @@ export default function Header() {
                 {/* Icons */}
                 <div className="flex     items-center gap-6 text-gray-700">
                     <Heart className="cursor-pointer hover:text-red-500" />
-                    <User className="cursor-pointer hover:text-blue-500" />
-                    <ShoppingCart className="cursor-pointer hover:text-green-500" />
+                    <Link to={'/login'}>
+                        <User className="cursor-pointer hover:text-blue-500" />
+                    </Link>
+                    <div className='flex gap-2'>
+                        <Link to={'/cart'}>
+                            <ShoppingCart className="cursor-pointer hover:text-green-500" />
+                        </Link>
+                        <div className='bg-red-500 text-white w-[25px] h-[25px] rounded-[50%] flex items-center justify-center'>
+                            <p className='b'>{cart.length}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             {/* Navigation */}
             <nav className="border-t border-gray-200 px-6 py-3 flex gap-8 text-gray-700 font-medium">
-                <a href="#" className="hover:text-blue-600">Home</a>
-                <a href="#" className="hover:text-blue-600">Shop</a>
-                <a href="#" className="hover:text-blue-600">Categories</a>
+                <Link to={'/'} className="hover:text-blue-600">Home</Link>
+                <Link to={'/cart'} className="hover:text-blue-600">Cart ({cart.length})</Link>
+                {
+                    user
+                        ?
+                        <Link to={'/'} onClick={() => {
+                            dispatch(logOut())
+                            dispatch(fetchCart())
+                        }} className="hover:text-blue-600">Logout ({user})</Link>
+                        :
+                        <Link to={'/login'} className="hover:text-blue-600">Login</Link>
+                }
                 <a href="#" className="hover:text-blue-600">Deals</a>
-                <a href="#" className="hover:text-blue-600">Contact</a>
+                <Link to={'/checkout'} href="#" className="hover:text-blue-600">Checkout</Link>
             </nav>
 
         </header>

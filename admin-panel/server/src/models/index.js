@@ -1,6 +1,10 @@
+import { cartModel } from "./cart.model.js";
+import { cartItemModel } from "./cartItems.model.js";
 import { categoryModel } from "./category.model.js";
 import { colorModel } from "./color.model.js";
 import { materialModel } from "./material.model.js";
+import { orderModel } from "./order.model.js";
+import { orderItemModel } from "./orderItems.model.js";
 import { productModel } from "./product.model.js";
 import { subCategoryModel } from "./subCategory.model.js";
 import { subSubCategoryModel } from "./subSubCategory.model.js";
@@ -101,4 +105,51 @@ productModel.belongsTo(colorModel, {
     as: "color",
     foreignKey: "colorId"
 })
-export { categoryModel, subCategoryModel, subSubCategoryModel, productModel }
+
+
+// for the cart Model.
+
+
+cartModel.hasMany(cartItemModel, {
+    foreignKey: "cartId",
+    as: "items"
+})
+
+cartItemModel.belongsTo(cartModel, {
+    foreignKey: "cartId",
+    as: "cart"
+})
+
+cartItemModel.belongsTo(productModel, {
+    foreignKey: "productId",
+    as: "product"
+})
+
+cartItemModel.belongsTo(colorModel, {
+    foreignKey: "colorId",
+    as: "color"
+})
+
+// Order → OrderItems
+orderModel.hasMany(orderItemModel, {
+    foreignKey: "orderId",
+    as: "items"
+});
+
+orderItemModel.belongsTo(orderModel, {
+    foreignKey: "orderId"
+});
+
+// Optional (for joins)
+orderItemModel.belongsTo(productModel, {
+    foreignKey: "productId",
+    as: "product"
+});
+
+orderItemModel.belongsTo(colorModel, {
+    foreignKey: "colorId",
+    as: "color"
+});
+
+
+export { categoryModel, subCategoryModel, subSubCategoryModel, productModel, cartModel, cartItemModel ,orderItemModel,orderModel}

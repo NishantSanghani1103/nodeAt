@@ -3,6 +3,10 @@
 import React, { useEffect, useState } from 'react'
 import { categoryViewApi, productViewApi } from '../services/homeApi'
 import { useAuth } from '../utils/user.utils'
+import { toast, ToastContainer } from 'react-toastify'
+import { cartAddApi } from '../services/cartApi'
+import { fetchCart } from '../features/cart/cartSlice'
+import { useDispatch } from 'react-redux'
 export default function Home() {
     const [productData, setproductData] = useState([])
     const [staticPath, setstaticPath] = useState("")
@@ -32,15 +36,9 @@ export default function Home() {
     }, [])
     return (
         <div className="bg-gray-100">
-
+            <ToastContainer />
             {/* Hero Section */}
-            <section className="bg-blue-600 text-white py-16 px-6 text-center">
-                <h1 className="text-4xl font-bold mb-4">Big Sale is Live 🔥</h1>
-                <p className="mb-6">Up to 50% off on all products</p>
-                <button className="bg-white text-blue-600 px-6 py-2 rounded-full font-semibold">
-                    Shop Now
-                </button>
-            </section>
+
 
             {/* Categories */}
             <section className="px-6 py-10">
@@ -49,7 +47,7 @@ export default function Home() {
                     {
                         categoryData.map((value, index) => {
                             return (
-                                <div className="bg-white p-6 rounded-xl shadow text-center capitalize">{value.name}</div>
+                                <div key={value.id} className="bg-white p-6 rounded-xl shadow text-center capitalize">{value.name}</div>
                             )
                         })
                     }
@@ -88,21 +86,37 @@ export default function Home() {
 
 
 function ProductRow({ value, staticPath }) {
-    const { name, image, subSubCategory, actualPrice } = value
-    const {user} = useAuth()
-    console.log(user);
+    const { id, name, image, subSubCategory, actualPrice, color } = value
+    const { user, token } = useAuth()
+    const dispatch=useDispatch()
     
-    const addToCart = () => {
-        if (user) {
-            console.log("fdjjfdjf");
-            
+
+    const addToCart = async () => {
+        try {
+            if (user) {
+                console.log("fdjjfdjf");
+                const res = await cartAddApi({
+                    productId: id,
+                    colorId: color.id,
+                    quantity: "1",
+                    productPrice: actualPrice
+                },token)
+
+                toast.success(res?.data?.message)
+                dispatch(fetchCart())
+            }
+            else {
+                // alert()
+                toast.error("Please Login First....!!")
+            }
+        } catch (error) {
+            toast.error(error?.response?.data?.message || error.message)
         }
-        else {
-            alert()
-        }
+
     }
     return (
         <>
+
             <div className="bg-white rounded-xl shadow p-4">
                 <img
                     src={staticPath + image}
@@ -113,7 +127,7 @@ function ProductRow({ value, staticPath }) {
                 <p className="text-gray-500 text-sm">{subSubCategory.name}</p>
                 <div className="flex justify-between items-center mt-3">
                     <span className="text-lg font-bold">₹ {actualPrice}</span>
-                    <button onClick={addToCart} className="bg-blue-600 text-white px-3 py-1 rounded">
+                    <button onClick={addToCart} className="bg-blue-600 cursor-pointer text-white px-3 py-1 rounded">
                         Add
                     </button>
                 </div>

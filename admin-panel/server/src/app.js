@@ -3,6 +3,7 @@ import cors from "cors"
 import adminRoutes from "./routes/adminRoutes/admin.routes.js"
 import { authRoutes } from "./routes/authRoutes/auth.routes.js"
 import { cartRoutes } from "./routes/cartRoutes/cart.routes.js"
+import { orderRoutes } from "./routes/orderRoutes/order.routes.js"
 const app = express()
 app.use(cors())
 app.use(express.json())
@@ -13,4 +14,5 @@ app.use("/uploads/product", express.static("uploads/product"))
 app.use("/admin", adminRoutes)
 app.use("/auth", authRoutes)
 app.use("/cart",cartRoutes)
+app.use("/order",orderRoutes)
 export default app
