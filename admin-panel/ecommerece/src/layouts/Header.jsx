@@ -1,7 +1,7 @@
 import { Heart, Search, ShoppingCart, User } from 'lucide-react'
 import React, { use, useEffect } from 'react'
 import { useAuth, useCart, useWishList } from '../utils/user.utils'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { fetchCart } from '../features/cart/cartSlice'
 import { logOut } from '../features/auth/authSlice'
@@ -59,10 +59,10 @@ export default function Header() {
                 {/* Icons */}
                 <div className="flex items-center gap-6 text-gray-700">
                     <div className='flex gap-2'>
-                        <Link to={'/wishlist'}>
+                        <NavLink to={'/wishlist'}>
                             <Heart className="cursor-pointer hover:text-red-500" />
 
-                        </Link>
+                        </NavLink>
                         <div className='bg-red-500 text-white w-[25px] h-[25px] rounded-[50%] flex items-center justify-center'>
                             <p className='b'>{wishList.length}</p>
                         </div>
@@ -83,21 +83,21 @@ export default function Header() {
 
             {/* Navigation */}
             <nav className="border-t border-gray-200 px-6 py-3 flex gap-8 text-gray-700 font-medium">
-                <Link to={'/'} className="hover:text-blue-600">Home</Link>
-                <Link to={'/cart'} className="hover:text-blue-600">Cart ({cart.length})</Link>
+                <NavLink to={'/'} className="hover:text-blue-600">Home</NavLink>
+                <NavLink to={'/cart'} className="hover:text-blue-600">Cart ({cart.length})</NavLink>
                 {
                     user
                         ?
-                        <Link to={'/'} onClick={() => {
+                        <NavLink to={'/'} onClick={() => {
                             dispatch(logOut())
                             dispatch(fetchCart())
                             dispatch(fetchWishList())
-                        }} className="hover:text-blue-600">Logout ({user})</Link>
+                        }} className="hover:text-blue-600">Logout ({user})</NavLink>
                         :
-                        <Link to={'/login'} className="hover:text-blue-600">Login</Link>
+                        <NavLink to={'/login'} className="hover:text-blue-600">Login</NavLink>
                 }
-                <Link to={'/order'} className="hover:text-blue-600">Orders</Link>
-                <Link to={'/checkout'} href="#" className="hover:text-blue-600">Checkout</Link>
+                <NavLink to={'/order'} className="hover:text-blue-600">Orders</NavLink>
+                <NavLink to={'/checkout'} href="#" className="hover:text-blue-600">Checkout</NavLink>
             </nav>
 
         </header>
