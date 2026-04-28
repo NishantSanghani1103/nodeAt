@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { cartViewApi } from "../../services/cartApi";
+import { logOut } from "../auth/authSlice";
 
 export const fetchCart = createAsyncThunk(
     '/cart/fetchById',
@@ -25,10 +26,12 @@ export const cartSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchCart.fulfilled, (state, action) => {
             state.cart = action.payload.data
-
-            
-            state.cartImagePath=action.payload.staticPath
+            state.cartImagePath = action.payload.staticPath
         })
+            .addCase(logOut, (state, action) => {
+                state.cart = []
+                state.cartImagePath = ""
+            })
     }
 })
 

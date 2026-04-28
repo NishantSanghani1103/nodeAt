@@ -8,6 +8,8 @@ import { orderItemModel } from "./orderItems.model.js";
 import { productModel } from "./product.model.js";
 import { subCategoryModel } from "./subCategory.model.js";
 import { subSubCategoryModel } from "./subSubCategory.model.js";
+import { wishListModel } from "./wishList.model.js";
+import { wishListItemsModel } from "./wishListItems.model.js";
 
 categoryModel.hasMany(subCategoryModel, {
     as: "subCategories",
@@ -152,4 +154,24 @@ orderItemModel.belongsTo(colorModel, {
 });
 
 
-export { categoryModel, subCategoryModel, subSubCategoryModel, productModel, cartModel, cartItemModel ,orderItemModel,orderModel}
+// for the wishlist
+
+
+wishListModel.hasMany(wishListItemsModel, {
+    as: "items",
+    foreignKey: "wishListId"
+})
+wishListItemsModel.belongsTo(wishListModel, {
+    as: "wishlist",
+    foreignKey: "wishListId"
+})
+wishListItemsModel.belongsTo(colorModel, {
+    as: "color",
+    foreignKey: "colorId"
+})
+wishListItemsModel.belongsTo(productModel, {
+    as: "product",
+    foreignKey: "productId"
+})
+
+export { categoryModel, subCategoryModel, subSubCategoryModel, productModel, cartModel, cartItemModel, orderItemModel, orderModel, wishListItemsModel, wishListModel }

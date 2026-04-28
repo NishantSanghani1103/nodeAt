@@ -5,6 +5,9 @@ import Home from "../pages/Home";
 import Login from "../features/auth/pages/Login";
 import Cart from "../features/cart/pages/Cart";
 import Checkout from "../features/checkOut/pages/Checkout";
+import Order from "../features/order/pages/Order";
+import WishList from "../features/wishList/pages/WishList";
+import ProductDetails from "../features/products/pages/ProductDetails";
 
 export const router = createBrowserRouter([
     {
@@ -26,6 +29,18 @@ export const router = createBrowserRouter([
             {
                 path: "checkout",
                 element: <Checkout />
+            },
+            {
+                path: "order",
+                element: <Order />
+            },
+            {
+                path: "wishlist",
+                element: <WishList />
+            },
+            {
+                path: "product/:id",
+                element: <ProductDetails />
             }
         ]
     }

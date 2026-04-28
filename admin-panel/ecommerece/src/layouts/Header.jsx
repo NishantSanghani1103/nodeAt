@@ -1,13 +1,15 @@
 import { Heart, Search, ShoppingCart, User } from 'lucide-react'
 import React, { use, useEffect } from 'react'
-import { useAuth, useCart } from '../utils/user.utils'
+import { useAuth, useCart, useWishList } from '../utils/user.utils'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { fetchCart } from '../features/cart/cartSlice'
 import { logOut } from '../features/auth/authSlice'
+import { fetchWishList } from '../features/wishList/wishListSlice'
 
 export default function Header() {
     const { user } = useAuth()
+    const { wishList } = useWishList()
     const dispatch = useDispatch()
     // useEffect(() => {
     //     console.log(user);
@@ -18,14 +20,17 @@ export default function Header() {
 
     useEffect(() => {
         if (user) {
+
             dispatch(fetchCart())
+            dispatch(fetchWishList())
         }
+
         // console.log("user chened");
 
     }, [user])
 
     return (
-        <header className="w-full shadow-md bg-white sticky top-0 ">
+        <header className="w-full shadow-md bg-white sticky top-0 z-3">
 
             {/* Top Bar */}
             <div className="bg-gray-900 text-white text-sm py-2 px-6 flex justify-between">
@@ -52,8 +57,16 @@ export default function Header() {
                 </div>
 
                 {/* Icons */}
-                <div className="flex     items-center gap-6 text-gray-700">
-                    <Heart className="cursor-pointer hover:text-red-500" />
+                <div className="flex items-center gap-6 text-gray-700">
+                    <div className='flex gap-2'>
+                        <Link to={'/wishlist'}>
+                            <Heart className="cursor-pointer hover:text-red-500" />
+
+                        </Link>
+                        <div className='bg-red-500 text-white w-[25px] h-[25px] rounded-[50%] flex items-center justify-center'>
+                            <p className='b'>{wishList.length}</p>
+                        </div>
+                    </div>
                     <Link to={'/login'}>
                         <User className="cursor-pointer hover:text-blue-500" />
                     </Link>
@@ -78,11 +91,12 @@ export default function Header() {
                         <Link to={'/'} onClick={() => {
                             dispatch(logOut())
                             dispatch(fetchCart())
+                            dispatch(fetchWishList())
                         }} className="hover:text-blue-600">Logout ({user})</Link>
                         :
                         <Link to={'/login'} className="hover:text-blue-600">Login</Link>
                 }
-                <a href="#" className="hover:text-blue-600">Deals</a>
+                <Link to={'/order'} className="hover:text-blue-600">Orders</Link>
                 <Link to={'/checkout'} href="#" className="hover:text-blue-600">Checkout</Link>
             </nav>
 

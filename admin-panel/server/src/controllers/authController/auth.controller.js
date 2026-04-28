@@ -19,7 +19,7 @@ export const userRegisterController = async (req, res) => {
 export const userLoginController = async (req, res) => {
     try {
         const data = await userLoginService(req.body)
-        console.log(data);
+        // console.log(data);
 
         if (!data.status) {
             return res.status(data.statusCode).json({

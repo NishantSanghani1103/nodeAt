@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function OrderSummary({ value }) {
-    console.log(value);
+    // console.log(value);
 
     return (
         <>

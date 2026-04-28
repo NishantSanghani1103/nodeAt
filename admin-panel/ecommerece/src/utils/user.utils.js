@@ -9,3 +9,8 @@ export const useCart = () => {
     const cart = useSelector((store) => store.cart)
     return cart
 }
+
+export const useWishList = () => {
+    const wishList = useSelector((store) => store.wishList)
+    return wishList
+}

@@ -121,3 +121,52 @@ export const productViewService = async () => {
         throw error
     }
 }
+
+export const productSingleViewService = async (id) => {
+    try {
+        const data = await productModel.findOne({
+            where: {
+                id
+            },
+            attributes: {
+                exclude: [
+                    "categoryId",
+                    "subCategoryId",
+                    "subSubCategoryId",
+                    "materialId",
+                    "colorId"
+                ]
+            },
+            include: [
+                {
+                    model: categoryModel,
+                    as: "category",
+                    attributes: ["id", "name"]
+                },
+                {
+                    model: subCategoryModel,
+                    as: "subCategory",
+                    attributes: ["id", "name"]
+                },
+                {
+                    model: subSubCategoryModel,
+                    as: "subSubCategory",
+                    attributes: ["id", "name"]
+                },
+                {
+                    model: materialModel,
+                    as: "material",
+                    attributes: ["id", "name"]
+                },
+                {
+                    model: colorModel,
+                    as: "color",
+                    attributes: ["id", "name"]
+                }
+            ]
+        })
+        return data
+    } catch (error) {
+        throw error
+    }
+}

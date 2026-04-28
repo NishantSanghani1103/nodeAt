@@ -1,4 +1,4 @@
-import { productAddService, productViewService } from "../../services/productServices/product.service.js";
+import { productAddService, productSingleViewService, productViewService } from "../../services/productServices/product.service.js";
 
 export const productAddController = async (req, res) => {
     try {
@@ -22,7 +22,7 @@ export const productAddController = async (req, res) => {
         if (!data.status) {
             return res.status(data.statusCode).json({
                 status: data.status,
-                message:data.message
+                message: data.message
             })
         }
 
@@ -45,11 +45,29 @@ export const productViewController = async (req, res) => {
         const data = await productViewService()
         return res.status(200).json({
             status: true,
-            staticPath:process.env.PRODUCT_STATICPATH,
+            staticPath: process.env.PRODUCT_STATICPATH,
             message: "Product Viewd Successfully....!!",
             data
         })
 
+    } catch (error) {
+        return res.status(500).json({
+            status: false,
+            message: error.message
+        })
+    }
+}
+
+export const productSingleViewController = async (req, res) => {
+    try {
+        const { id } = req.params
+        const data = await productSingleViewService(id)
+        return res.status(200).json({
+            status: true,
+            staticPath: process.env.PRODUCT_STATICPATH,
+            message: "Product Single Viewd Successfully....!!",
+            data
+        })
     } catch (error) {
         return res.status(500).json({
             status: false,

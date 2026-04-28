@@ -25,7 +25,7 @@ export const orderAddService = async (data, userId) => {
                 userId
             }
         })
-        console.log(cart);
+        // console.log(cart);
 
         if (!cart) {
             return {
@@ -40,7 +40,7 @@ export const orderAddService = async (data, userId) => {
                 cartId: cart.id
             }
         })
-        console.log(cartItems);
+        // console.log(cartItems);
 
         if (!cartItems.length) {
             return {
@@ -110,11 +110,12 @@ export const orderViewService = async (userId) => {
                         {
                             model: colorModel,
                             as: "color",
-                            attributes:["id","name"]
+                            attributes: ["id", "name"]
                         }
                     ]
                 }
-            ]
+            ],
+            order: [["createdAt", "DESC"]]
         })
         return data
     } catch (error) {
