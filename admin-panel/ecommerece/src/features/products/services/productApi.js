@@ -7,3 +7,7 @@ const api = axios.create({
 export const productSingleViewApi = (id) => {
     return api.get(`/product/view/${id}`)
 }
+
+export const productCateView = (cateName) => {
+    return api.get(`/product/catView/${cateName}`)
+}

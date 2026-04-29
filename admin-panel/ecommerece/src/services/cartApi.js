@@ -4,6 +4,8 @@ const api = axios.create({
     baseURL: import.meta.env.VITE_USER_BASE_URL
 })
 export const cartAddApi = (data, token) => {
+    console.log(data);
+    
     return api.post("/cart/add", data, {
         headers: {
             Authorization: `Bearer ${token}`

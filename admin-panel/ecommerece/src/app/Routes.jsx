@@ -8,6 +8,7 @@ import Checkout from "../features/checkOut/pages/Checkout";
 import Order from "../features/order/pages/Order";
 import WishList from "../features/wishList/pages/WishList";
 import ProductDetails from "../features/products/pages/ProductDetails";
+import ProductItems from "../features/categoryProduct/pages/ProductItems";
 
 export const router = createBrowserRouter([
     {
@@ -41,7 +42,12 @@ export const router = createBrowserRouter([
             {
                 path: "product/:id",
                 element: <ProductDetails />
+            },
+            {
+                path:"/product-items/:catName",
+                element:<ProductItems/>
             }
+
         ]
     }
 ])

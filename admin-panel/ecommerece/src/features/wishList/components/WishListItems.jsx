@@ -45,7 +45,7 @@ export default function WishListItems({ value }) {
             <img
                 src={wishListImagePath + value.product.image}
                 alt="product"
-                className="rounded-xl mb-4"
+                className="rounded-xl mb-4 w-full h-38 object-cover object-fit"
             />
 
             <h3 className="font-semibold text-lg">{value.product.name}</h3>

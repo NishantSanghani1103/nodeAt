@@ -1,4 +1,4 @@
-import { productAddService, productSingleViewService, productViewService } from "../../services/productServices/product.service.js";
+import { productAddService, productCategoryViewService, productSingleViewService, productViewService } from "../../services/productServices/product.service.js";
 
 export const productAddController = async (req, res) => {
     try {
@@ -42,12 +42,14 @@ export const productAddController = async (req, res) => {
 
 export const productViewController = async (req, res) => {
     try {
-        const data = await productViewService()
+        const { limit, skip } = req.query
+        const data = await productViewService(limit, skip)
         return res.status(200).json({
             status: true,
             staticPath: process.env.PRODUCT_STATICPATH,
+            totalRecords: data.totalRecords.length,
             message: "Product Viewd Successfully....!!",
-            data
+            data: data.data
         })
 
     } catch (error) {
@@ -62,6 +64,26 @@ export const productSingleViewController = async (req, res) => {
     try {
         const { id } = req.params
         const data = await productSingleViewService(id)
+        return res.status(200).json({
+            status: true,
+            staticPath: process.env.PRODUCT_STATICPATH,
+            message: "Product Single Viewd Successfully....!!",
+            data
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: false,
+            message: error.message
+        })
+    }
+}
+
+export const productCategoryController = async (req, res) => {
+    try {
+        const { catName } = req.params
+        // console.log(catName);
+
+        const data = await productCategoryViewService(catName)
         return res.status(200).json({
             status: true,
             staticPath: process.env.PRODUCT_STATICPATH,

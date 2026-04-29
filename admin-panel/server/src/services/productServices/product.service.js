@@ -70,53 +70,58 @@ export const productAddService = async (data) => {
         throw error
     }
 }
-export const productViewService = async () => {
+export const productViewService = async (limit, skip) => {
     try {
-
-
-        const data = await productModel.findAll(
-            {
-                attributes: {
-                    exclude: [
-                        "categoryId",
-                        "subCategoryId",
-                        "subSubCategoryId",
-                        "materialId",
-                        "colorId"
-                    ]
+        // console.log(skip);
+        const finalSkip = (skip - 1) * limit
+        const totalRecords = await productModel.findAll()
+        const data = await productModel.findAll({
+            // where: {
+            //     type: "FEATURED"
+            // },
+            limit,
+            offset: finalSkip,
+            attributes: {
+                exclude: [
+                    "categoryId",
+                    "subCategoryId",
+                    "subSubCategoryId",
+                    "materialId",
+                    "colorId"
+                ]
+            },
+            include: [
+                {
+                    model: categoryModel,
+                    as: "category",
+                    attributes: ["id", "name"]
                 },
-                include: [
-                    {
-                        model: categoryModel,
-                        as: "category",
-                        attributes: ["id", "name"]
-                    },
-                    {
-                        model: subCategoryModel,
-                        as: "subCategory",
-                        attributes: ["id", "name"]
-                    },
-                    {
-                        model: subSubCategoryModel,
-                        as: "subSubCategory",
-                        attributes: ["id", "name"]
-                    },
-                    {
-                        model: materialModel,
-                        as: "material",
-                        attributes: ["id", "name"]
-                    },
-                    {
-                        model: colorModel,
-                        as: "color",
-                        attributes: ["id", "name"]
-                    }
-                ],
-                order: [["createdAt", "DESC"]]
-            }
+                {
+                    model: subCategoryModel,
+                    as: "subCategory",
+                    attributes: ["id", "name"]
+                },
+                {
+                    model: subSubCategoryModel,
+                    as: "subSubCategory",
+                    attributes: ["id", "name"]
+                },
+                {
+                    model: materialModel,
+                    as: "material",
+                    attributes: ["id", "name"]
+                },
+                {
+                    model: colorModel,
+                    as: "color",
+                    attributes: ["id", "name"]
+                }
+            ],
+            order: [["createdAt", "DESC"]]
+        }
         )
 
-        return data
+        return { data, totalRecords }
     } catch (error) {
         throw error
     }
@@ -142,6 +147,47 @@ export const productSingleViewService = async (id) => {
                     model: categoryModel,
                     as: "category",
                     attributes: ["id", "name"]
+                },
+                {
+                    model: subCategoryModel,
+                    as: "subCategory",
+                    attributes: ["id", "name"]
+                },
+                {
+                    model: subSubCategoryModel,
+                    as: "subSubCategory",
+                    attributes: ["id", "name"]
+                },
+                {
+                    model: materialModel,
+                    as: "material",
+                    attributes: ["id", "name"]
+                },
+                {
+                    model: colorModel,
+                    as: "color",
+                    attributes: ["id", "name"]
+                }
+            ]
+        })
+        return data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const productCategoryViewService = async (categoryName) => {
+    try {
+        const data = await productModel.findAll({
+
+            include: [
+                {
+                    model: categoryModel,
+                    as: "category",
+                    attributes: ["id", "name"],
+                    where:{
+                        name:categoryName
+                    }
                 },
                 {
                     model: subCategoryModel,

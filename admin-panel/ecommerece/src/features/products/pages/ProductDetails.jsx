@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/set-state-in-effect */
 import React, { useEffect, useState } from 'react'
 import { productSingleViewApi } from '../services/productApi'
@@ -40,7 +41,7 @@ export default function ProductDetails() {
                             <img
                                 src={staticPath + imageChange}
                                 alt="product"
-                                className="w-full h-[350px] object-cover rounded-xl"
+                                className="w-full h-87.5 object-cover rounded-xl"
                             />
                         </div>
 

@@ -4,8 +4,13 @@ const api = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL
 })
 
-export const productViewApi = () => {
-    return api.get("/product/view")
+export const productViewApi = (limit,skip) => {
+    return api.get("/product/view", {
+        params: {
+            limit,
+            skip
+        }
+    })
 }
 
 export const categoryViewApi = () => {

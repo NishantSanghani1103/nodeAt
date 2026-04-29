@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { useAuth, useCart } from '../../../utils/user.utils'
 import OrderSummary from '../components/OrderSummary'
@@ -5,11 +6,14 @@ import BillingDetails from '../components/BillingDetails'
 import { toast, ToastContainer } from 'react-toastify'
 import { orderAddApi } from '../../order/services/orderApi'
 import { Navigate, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { fetchCart } from '../../cart/cartSlice'
 
 export default function Checkout() {
     const { cart } = useCart()
     const { token } = useAuth()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [billingData, setbillingData] = useState({
         fullName: "",
         phone: "",
@@ -32,14 +36,14 @@ export default function Checkout() {
         try {
             const res = await orderAddApi(billingData, token)
             toast.success(res?.data?.message)
+            dispatch(fetchCart())
+
         } catch (error) {
             toast.error(error?.response?.data?.message || error.message)
         }
     }
     useEffect(() => {
         if (!token) {
-            
-            
             navigate("/")
         }
     }, [])

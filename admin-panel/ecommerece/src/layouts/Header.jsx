@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Heart, Search, ShoppingCart, User } from 'lucide-react'
 import React, { use, useEffect } from 'react'
 import { useAuth, useCart, useWishList } from '../utils/user.utils'
@@ -30,7 +31,7 @@ export default function Header() {
     }, [user])
 
     return (
-        <header className="w-full shadow-md bg-white sticky top-0 z-3">
+        <header className="w-full shadow-md bg-white sticky top-0 z-4">
 
             {/* Top Bar */}
             <div className="bg-gray-900 text-white text-sm py-2 px-6 flex justify-between">
@@ -63,7 +64,7 @@ export default function Header() {
                             <Heart className="cursor-pointer hover:text-red-500" />
 
                         </NavLink>
-                        <div className='bg-red-500 text-white w-[25px] h-[25px] rounded-[50%] flex items-center justify-center'>
+                        <div className='bg-red-500 text-white w-6.25 h-6.25 rounded-[50%] flex items-center justify-center'>
                             <p className='b'>{wishList.length}</p>
                         </div>
                     </div>
@@ -74,7 +75,7 @@ export default function Header() {
                         <Link to={'/cart'}>
                             <ShoppingCart className="cursor-pointer hover:text-green-500" />
                         </Link>
-                        <div className='bg-red-500 text-white w-[25px] h-[25px] rounded-[50%] flex items-center justify-center'>
+                        <div className='bg-red-500 text-white w-6.25 h-6.25 rounded-[50%] flex items-center justify-center'>
                             <p className='b'>{cart.length}</p>
                         </div>
                     </div>
@@ -88,11 +89,13 @@ export default function Header() {
                 {
                     user
                         ?
-                        <NavLink to={'/'} onClick={() => {
-                            dispatch(logOut())
-                            dispatch(fetchCart())
-                            dispatch(fetchWishList())
-                        }} className="hover:text-blue-600">Logout ({user})</NavLink>
+                        <Link to={'/'} onClick={() => {
+                            if (confirm("Are You Want To Sure LogOut ? ")) {
+                                dispatch(logOut())
+                                dispatch(fetchCart())
+                                dispatch(fetchWishList())
+                            }
+                        }} className="hover:text-blue-600">Logout ({user})</Link>
                         :
                         <NavLink to={'/login'} className="hover:text-blue-600">Login</NavLink>
                 }
