@@ -27,7 +27,7 @@ export default function Home() {
             setstaticPath(res?.data?.staticPath)
             settotalRecords(res?.data?.totalRecords)
         } catch (error) {
-            console.log(error?.response?.data?.message ?? error.message);
+            toast.error(error?.response?.data?.message ?? error.message);
         }
     }
 
@@ -36,7 +36,7 @@ export default function Home() {
             const res = await categoryViewApi()
             setcategoryData(res?.data?.data)
         } catch (error) {
-            console.log(error?.response?.data?.message ?? error.message);
+           toast.error(error?.response?.data?.message ?? error.message);
         }
     }
 
