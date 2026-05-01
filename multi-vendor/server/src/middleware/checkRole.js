@@ -8,7 +8,6 @@ export const checkRoles = (...roles) => {
                 message: "Access Denied: You are not authorized"
             });
         }
-
         next();
     };
 };
