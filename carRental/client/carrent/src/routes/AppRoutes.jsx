@@ -4,6 +4,11 @@ import Home from "../pages/home/pages/Home";
 import CarDetails from "../pages/carDetails/pages/CarDetails";
 import Cars from "../pages/cars/pages/Cars";
 import Order from "../pages/myOrder/pages/Order";
+import AdminLayouts from "../layouts/AdminLayouts";
+import AdminDashboard from "../pages/admin/pages/AdminDashboard";
+import AddCar from "../pages/admin/pages/AddCar";
+import ManageCar from "../pages/admin/pages/ManageCar";
+import ManageBookings from "../pages/admin/pages/ManageBookings";
 
 export const routes = createBrowserRouter([
     {
@@ -24,8 +29,31 @@ export const routes = createBrowserRouter([
             },
             {
                 path: "order",
-                element: <Order />  
+                element: <Order />
+            },
+            {
+                path: "admin",
+                element: <AdminLayouts />,
+                children: [
+                    {
+                        path: "dashboard",
+                        element: <AdminDashboard />
+                    },
+                    {
+                        path:"add/car",
+                        element:<AddCar/>
+                    },
+                    {
+                        path:"/admin/manage/car",
+                        element:<ManageCar/>
+                    },
+                    {
+                        path:"/admin/manage/booking",
+                        element:<ManageBookings/>
+                    }
+                ]
             }
+
         ]
     }
 ])

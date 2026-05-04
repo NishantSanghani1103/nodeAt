@@ -10,7 +10,6 @@ export default function Order() {
     const { token } = useAuth()
     const getOrder = async () => {
         if(token){
-
             try {
                 const res = await orderViewApi(token)
                 setorderData(res?.data?.data)
