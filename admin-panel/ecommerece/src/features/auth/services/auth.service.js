@@ -11,3 +11,15 @@ export const userRegisterApi = (data) => {
 export const userLoginApi = (data) => {
     return api.post("/auth/login", data)
 }
+
+export const forgotPasswordApi = (data) => {
+    return api.post("/auth/forgot-password", data)
+}
+
+export const changePasswordApi = (data,token) => {
+    return api.post("/auth/change-password",data,{
+        headers:{
+            Authorization:`Bearer ${token}`
+        }
+    })
+}

@@ -101,6 +101,13 @@ export default function Header() {
                 }
                 <NavLink to={'/order'} className="hover:text-blue-600">Orders</NavLink>
                 <NavLink to={'/checkout'} href="#" className="hover:text-blue-600">Checkout</NavLink>
+                {
+                    !user
+                        ?
+                        <NavLink to={'/forgot-password'} href="#" className="hover:text-blue-600">Forgot Password</NavLink>
+                        :
+                        <NavLink to={'/change-password'} href="#" className="hover:text-blue-600">Change Password</NavLink>
+                }
             </nav>
 
         </header>

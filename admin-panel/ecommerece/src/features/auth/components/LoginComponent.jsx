@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { userLoginApi } from '../services/auth.service'
 import { useDispatch } from 'react-redux'
 import { logIn } from '../authSlice'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../../utils/user.utils'
 
 export default function LoginComponent() {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const { user } = useAuth()
     const [loginValue, setloginValue] = useState({
         email: "",
         password: ""
@@ -29,11 +33,18 @@ export default function LoginComponent() {
             const res = await userLoginApi(loginValue)
             toast.success(res?.data?.message)
             dispatch(logIn({ token: res?.data?.token, user: res?.data?.name }))
-
+            setTimeout(() => {
+                navigate("/")
+            }, 2000)
         } catch (error) {
             toast.error(error?.response?.data?.message ?? error.message)
         }
     }
+    useEffect(() => {
+        if (user) {
+            navigate("/")
+        }
+    }, [])
     return (
         <div className="bg-white p-8 rounded-2xl shadow-md">
             <h2 className="text-2xl font-bold mb-6 text-gray-800">Login</h2>

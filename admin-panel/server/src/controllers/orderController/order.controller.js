@@ -13,7 +13,7 @@ export const orderAddController = async (req, res) => {
         }
         return res.status(201).json({
             status: true,
-            message: "Order Created Successfully....!!",
+            message: data.message,
             data: data.dataRes
         })
     } catch (error) {

@@ -49,17 +49,17 @@ export const loginValidator = [
     body("email")
         .notEmpty().withMessage("User Email Is Required....!!")
         .isEmail().withMessage("Please Enter Valid Email....!!"),
-        // .bail()
-        // .custom(async (value) => {
-        //     const checkEmail = await userModel.findOne({
-        //         where: {
-        //             email: value
-        //         }
-        //     })
-        //     if (!checkEmail) {
-        //         throw new Error("Email Doesn't Exists....!!")
-        //     }
-        // }),
+    // .bail()
+    // .custom(async (value) => {
+    //     const checkEmail = await userModel.findOne({
+    //         where: {
+    //             email: value
+    //         }
+    //     })
+    //     if (!checkEmail) {
+    //         throw new Error("Email Doesn't Exists....!!")
+    //     }
+    // }),
     body("password")
         .notEmpty().withMessage("User Password Is Required....!!"),
     // .custom(async (value, { req }) => {
@@ -81,6 +81,55 @@ export const loginValidator = [
     // }),
     (req, res, next) => {
         const error = validationResult(req)
+
+        if (!error.isEmpty()) {
+            return res.status(401).json({
+                status: false,
+                message: error.array()[0].msg
+            })
+        }
+        next()
+    }
+]
+
+
+export const forgotPasswordValidator = [
+    body("email")
+        .notEmpty().withMessage("User Email Is Required....!!"),
+    body("password")
+        .notEmpty().withMessage("User Password Is Required....!!"),
+    body("confirmPassword")
+        .notEmpty().withMessage("Confirm Password Is Required....!!")
+        .custom((value, { req }) => {
+            if (value != req.body.password) {
+                throw new Error("Confirm Password Doesn't Matched....!!")
+            }
+            return true
+        }),
+    (req, res, next) => {
+        const error = validationResult(req)
+        console.log(error);
+
+        if (!error.isEmpty()) {
+            return res.status(401).json({
+                status: false,
+                message: error.array()[0].msg
+            })
+        }
+        next()
+    }
+]
+
+
+export const changePasswordValidator = [
+    body("oldPassword")
+        .notEmpty().withMessage("Current Password Is Required....!!"),
+    body("password")
+        .notEmpty().withMessage("New Password Is Required....!!")
+        .isLength({ min: 6 }).withMessage("Password Should Be More Than 6 Character....!!"),
+    (req, res, next) => {
+        const error = validationResult(req)
+        console.log(error);
 
         if (!error.isEmpty()) {
             return res.status(401).json({

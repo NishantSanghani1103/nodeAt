@@ -9,6 +9,8 @@ import Order from "../features/order/pages/Order";
 import WishList from "../features/wishList/pages/WishList";
 import ProductDetails from "../features/products/pages/ProductDetails";
 import ProductItems from "../features/categoryProduct/pages/ProductItems";
+import ForgotPassword from "../features/auth/pages/ForgotPassword";
+import ChangePassword from "../features/auth/pages/ChangePassword";
 
 export const router = createBrowserRouter([
     {
@@ -22,6 +24,14 @@ export const router = createBrowserRouter([
             {
                 path: "login",
                 element: <Login />
+            },
+            {
+                path: "forgot-password",
+                element: <ForgotPassword />
+            },
+            {
+                path: "/change-password",
+                element:<ChangePassword/>
             },
             {
                 path: "cart",
@@ -44,8 +54,8 @@ export const router = createBrowserRouter([
                 element: <ProductDetails />
             },
             {
-                path:"/product-items/:catName",
-                element:<ProductItems/>
+                path: "/product-items/:catName",
+                element: <ProductItems />
             }
 
         ]
