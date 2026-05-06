@@ -1,13 +1,14 @@
 import { DataTypes, UUIDV4 } from "sequelize";
 import { sequelize } from "../../config/db.js";
 
+
 export const userModel = sequelize.define("user", {
     id: {
         type: DataTypes.UUID,
         primaryKey: true,
         defaultValue: UUIDV4
     },
-    name: {
+    userName: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
@@ -29,11 +30,16 @@ export const userModel = sequelize.define("user", {
             len: [6, 300]
         }
     },
-    role: {
-        type: DataTypes.ENUM("owner", "user"),
-        allowNull: false,
-        defaultValue: "user"
-    }
+    profilePicture: {
+        type: DataTypes.STRING
+    },
+    bio: {
+        type: DataTypes.STRING
+    },
+    gender: {
+        type: DataTypes.ENUM("male", "female")
+    },
+
 }, {
     timestamps: true
 }

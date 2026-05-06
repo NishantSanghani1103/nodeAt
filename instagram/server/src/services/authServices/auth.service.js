@@ -4,7 +4,17 @@ import { checkPassword, hashedPassword } from "../../utils/hashedPassword.js"
 
 export const registerService = async (data) => {
     try {
-        const { name, email, password, role } = data
+        const {
+            userName,
+            email,
+            password,
+            bio,
+            gender,
+            profilePicture
+        } = data
+
+
+
 
         const checkUser = await userModel.findOne({
             where: {
@@ -23,9 +33,11 @@ export const registerService = async (data) => {
         const hashPassword = await hashedPassword(password)
 
         const res = await userModel.create({
-            name,
+            userName,
             email,
-            role: role ? role : "user",
+            bio,
+            gender,
+            profilePicture: profilePicture ?? "",
             password: hashPassword
         })
 
@@ -65,9 +77,9 @@ export const loginService = async (data) => {
         }
 
         const obj = {
-            name: checkUser.name,
+            userId: checkUser.id,
+            name: checkUser.userName,
             email: checkUser.email,
-            role: checkUser.role
         }
 
         const token = jwt.sign(obj, process.env.TOKENKEY)
