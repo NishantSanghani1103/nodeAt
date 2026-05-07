@@ -1,2 +1,5 @@
-export { userModel } from "./user.model.js";
+import { userModel } from "./user.model.js";
 
+export {
+    userModel
+}

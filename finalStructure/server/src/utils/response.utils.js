@@ -1,7 +1,7 @@
 export const response = async (res, returnResponse) => {
-    let { status, statusCode, message, data, count, error } = returnResponse;
-  
-    
+    let { status, statusCode, message, data, count, error, token } = returnResponse;
+
+
     if (statusCode === 500) {
         return res.status(statusCode).json({
             status,
@@ -12,6 +12,7 @@ export const response = async (res, returnResponse) => {
     return res.status(statusCode).json({
         status,
         message,
-        data
+        data,
+        ...(token && { token })
     })
 }

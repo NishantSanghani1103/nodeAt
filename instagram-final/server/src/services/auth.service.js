@@ -1,36 +1,35 @@
-import { userModel } from "../database/models/index.js"
+import { userModel } from "../model/index.js"
 import { hashedPassword, token } from "../utils/index.js"
-import jwt from "jsonwebtoken"
+
 export const registerService = async (data) => {
     try {
-        const { email, password, name } = data
-        const hasPassword = await hashedPassword(password)
+        const { email, password } = data
+        const hashPassword = await hashedPassword(password)
         const res = await userModel.create({
-            email,
-            name,
-            password: hasPassword
+            ...data,
+            password: hashPassword
         })
-
         return {
-            email,
-            name
+            name: res.userName,
+            email: res.email
         }
 
     } catch (error) {
         throw error
     }
+
 }
 
 export const loginService = async (data, user) => {
     try {
+        const { id, name, email } = user
         const obj = {
-            id: user.id,
-            name: user.name,
-            email: user.email
+            id,
+            name,
+            email
         }
-
         const tokenValue = token(obj,process.env.TOKENKEY)
-       
+
         return tokenValue
     } catch (error) {
         throw error

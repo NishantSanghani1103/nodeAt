@@ -1,2 +1,7 @@
-export { registerController } from "./auth.controller.js";
+import { registerController, loginController } from "./auth.controller.js";
+
+export {
+    registerController,
+    loginController
+}
 

@@ -1,0 +1,31 @@
+import { DataTypes } from "sequelize";
+import { sequelize } from "../config/db.js";
+import { userModel,postModel } from "./index.js";
+
+export const commentModel = sequelize.define("comment", {
+    id: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4
+    },
+    text: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    userId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: userModel,
+            key: "id"
+        }
+    },
+    postId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: postModel,
+            key: "id"
+        }
+    }
+}, { timestamps: true });

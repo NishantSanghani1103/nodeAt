@@ -1,2 +1,5 @@
-export { registerService } from "./auth.service.js";
-
+import { registerService, loginService } from "./auth.service.js";
+export {
+    registerService,
+    loginService
+}

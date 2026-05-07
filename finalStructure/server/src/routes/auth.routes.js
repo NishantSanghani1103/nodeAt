@@ -1,4 +1,9 @@
 import express from "express"
-import { registerController } from "../controllers/index.js"
+import { loginController, registerController } from "../controllers/index.js"
+
+import { loginValidation, registerValidation } from "../validators/index.js"
+import { checkUserExists, checkUserNamePassword } from "../middleware/databaseMiddleware/index.js"
+
 export const authRoutes = express.Router()
-authRoutes.post("/register", registerController)
+authRoutes.post("/register", registerValidation, checkUserExists, registerController)
+authRoutes.post("/login",loginValidation,checkUserNamePassword,loginController)
