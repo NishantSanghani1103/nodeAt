@@ -1,4 +1,4 @@
-import { bookmarkModel, followModel, postModel, userModel } from "../model/index.js"
+import { bookmarkModel, commentModel, followModel, likeModel, postModel, userModel } from "../model/index.js"
 
 export const userViewService = async (userId) => {
     const data = await userModel.findAll({
@@ -13,13 +13,14 @@ export const userViewService = async (userId) => {
         include: [
             {
                 model: postModel,
-                as: "posts"
+                as: "posts",
+                attributes: ["id", "image", "imageUrl", "caption"]
             },
             {
                 model: userModel,
 
                 as: "followers",
-                attributes: ["userName", "profilePicture"],
+                attributes: ["id", "userName", "profilePicture"],
                 through: {
                     attributes: []
                 }
@@ -27,7 +28,7 @@ export const userViewService = async (userId) => {
             {
                 model: userModel,
                 as: "followings",
-                attributes: ["userName", "profilePicture"],
+                attributes: ["id", "userName", "profilePicture"],
                 through: {
                     attributes: []
                 }
@@ -35,6 +36,48 @@ export const userViewService = async (userId) => {
             {
                 model: bookmarkModel,
                 as: "bookMarks"
+            },
+            {
+                model: likeModel,
+                as: "likes",
+                attributes:{
+                    exclude:[
+                        "userId",
+                        "postId"
+                    ]
+                },
+                include: [
+                    {
+                        model: postModel,
+                        as: "posts",
+                        attributes: ["id", "image", "imageUrl", "caption"]
+                    },
+                    {
+                        model: userModel,
+                        as: "user",
+                        attributes: ["id", "userName", "profilePicture"],
+                    }
+                ]
+            },
+            {
+                model: commentModel,
+                as: "comments",
+                
+                attributes: {
+                    exclude: [
+                        "userId",
+                        "postId",
+                        "createdAt",
+                        "updatedAt"
+                    ]
+                },
+                include: [
+                    {
+                        model: postModel,
+                        as: "posts",
+                        attributes: ["image", "caption"]
+                    }
+                ]
             }
 
         ]

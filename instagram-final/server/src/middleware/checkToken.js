@@ -7,7 +7,7 @@ export const checkToken = (req, res, next) => {
         return response(res, {
             status: false,
             statusCode: 400,
-            message: messages.general.VALIDATION_ERROR
+            message: messages.general.TOKEN_ERROR
         })
     }
     // console.log(token);

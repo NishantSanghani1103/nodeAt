@@ -3,7 +3,7 @@ env.config()
 import { app } from "./src/app.js"
 import { sequelize } from "./src/config/db.js";
 import "./src/model/relation.js";
-// import * as db from "./src/model/index.js"
+import * as db from "./src/model/index.js"
 const port = process.env.PORT
 const dbName=process.env.DB_NAME
 sequelize.sync({ alter: true })

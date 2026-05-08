@@ -21,7 +21,17 @@ export const likeModel = sequelize.define("like", {
         allowNull: false,
         references: {
             model: postModel,
-            key:"id"
+            key: "id"
         }
     }
-}, { timestamps: true });
+},
+    {
+        timestamps: true,
+        indexes: [
+            {
+                unique:true,
+                fields:["userId","postId"]
+            }
+        ]
+    }
+);

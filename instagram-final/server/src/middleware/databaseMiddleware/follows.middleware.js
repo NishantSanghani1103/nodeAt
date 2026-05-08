@@ -34,15 +34,33 @@ export const checkFollow = async (req, res, next) => {
         }
     })
     // console.log(isAlreadyFollow);
-    
+
     if (isAlreadyFollow) {
         return response(res, {
             status: false,
-            statusCode:400,
-            message:messages.follow.ALREADY_FOLLOW
+            statusCode: 400,
+            message: messages.follow.ALREADY_FOLLOW
         })
     }
-
-    
     next()
+}
+
+export const checkIsFollow = async (req, res, next) => {
+    const followerId = req.userId
+    const followingId = req.params.id
+
+    const isFollow = await followModel.findOne({
+        where: {
+            followingId, followerId
+        }
+    })
+    if (!isFollow) {
+        return response(res, {
+            status: false,
+            statusCode: 400,
+            message: messages.follow.NOT_FOLLOW
+        })
+    }
+    next()
+
 }

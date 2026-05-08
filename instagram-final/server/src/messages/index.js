@@ -12,6 +12,7 @@ export const messages = {
         PAYMENT_FAIL: 'Payment fail',
         MINIMUM_PAYMENT: 'Please purchase a minimum of 2 Media Credits',
         OOPS: 'Oops! Something whet wrong. Please try again later',
+        TOKEN_ERROR: "Please Login First"
     },
     auth: {
         SIGNIN_SUCCESS: 'SignIn successfully',
@@ -28,12 +29,19 @@ export const messages = {
         NEW_PASSWORD_INVALID:
             'New password is similar to your old password please use different password',
     },
+    post: {
+        INVALID_POST:"post not found",
+        LIKE:"Liked",
+        UNLIKED:"unliked",
+        ALREADY_LIKED:"Already Liked"
+    },
     follow: {
         OK: "Followed Successfully",
-        ALREADY_FOLLOW:"You Are Already Followed",
-        INVALID_FOLLOWING:"Invalid Following User",
-        SAME_FOLLOWING:"Following User Should Be Unique"
-
+        ALREADY_FOLLOW: "You Are Already Followed",
+        INVALID_FOLLOWING: "Invalid Following User",
+        SAME_FOLLOWING: "Following User Should Be Unique",
+        UNFOLLOW: "Unfollowed Successfully",
+        NOT_FOLLOW: "You Are Not Following This User"
     },
     category: {
         CATEGORY_NOT_FOUND: 'Category not found',

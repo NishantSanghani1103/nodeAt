@@ -1,7 +1,7 @@
-import { bookmarkModel, followModel, postModel, userModel } from "./index.js";
+import { bookmarkModel, commentModel, followModel, likeModel, postModel, userModel } from "./index.js";
 
 
-// // for the post
+//  for the post
 
 userModel.hasMany(postModel, {
     as: "posts",
@@ -9,6 +9,28 @@ userModel.hasMany(postModel, {
 })
 
 postModel.belongsTo(userModel, {
+    as: "user",
+    foreignKey: "userId"
+})
+
+
+postModel.hasMany(commentModel, {
+    as: "comments",
+    foreignKey: "postId"
+})
+
+commentModel.belongsTo(postModel, {
+    as: "posts",
+    foreignKey: "postId"
+})
+
+
+userModel.hasMany(commentModel, {
+    as: "comments",
+    foreignKey: "userId"
+})
+
+commentModel.belongsTo(userModel, {
     as: "user",
     foreignKey: "userId"
 })
@@ -52,6 +74,29 @@ postModel.hasMany(bookmarkModel, {
 })
 
 bookmarkModel.belongsTo(postModel, {
+    as: "posts",
+    foreignKey: "postId"
+})
+
+
+// for the like 
+
+userModel.hasMany(likeModel, {
+    as: "likes",
+    foreignKey: "userId"
+})
+
+likeModel.belongsTo(userModel, {
+    as: "user",
+    foreignKey: "userId"
+})
+
+postModel.hasMany(likeModel, {
+    as: "likes",
+    foreignKey: "postId"
+})
+
+likeModel.belongsTo(postModel, {
     as:"posts",
     foreignKey:"postId"
 })
