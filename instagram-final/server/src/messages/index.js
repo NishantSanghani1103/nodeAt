@@ -26,14 +26,16 @@ export const messages = {
         USER_ACCOUNT_DISABLE: 'Your account is disabled',
         PASSWORD_CHANGED: 'Password change successfully',
         OLD_PASSWORD_INVALID: 'Old password invalid',
-        NEW_PASSWORD_INVALID:
-            'New password is similar to your old password please use different password',
+        NEW_PASSWORD_INVALID: 'New password is similar to your old password please use different password',
     },
     post: {
-        INVALID_POST:"post not found",
-        LIKE:"Liked",
-        UNLIKED:"unliked",
-        ALREADY_LIKED:"Already Liked"
+        INVALID_POST: "post not found",
+        LIKE: "Liked",
+        UNLIKED: "unliked",
+        ALREADY_LIKED: "Already Liked"
+    },
+    bookMark: {
+        ALREADY_BOOKMARKED: "Post Already Saved"
     },
     follow: {
         OK: "Followed Successfully",

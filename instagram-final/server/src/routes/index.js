@@ -4,6 +4,7 @@ import { followRoutes } from "./follow.routes.js";
 import { postRoutes } from "./post.routes.js";
 import { commentRoutes } from "./comment.routes.js";
 import { likeRoutes } from "./like.routes.js";
+import { bookMarksRoutes } from "./bookmarks.routes.js";
 import { routes } from "./routes.js";
 
 export {
@@ -13,5 +14,6 @@ export {
     followRoutes,
     postRoutes,
     commentRoutes,
-    likeRoutes
+    likeRoutes,
+    bookMarksRoutes
 }

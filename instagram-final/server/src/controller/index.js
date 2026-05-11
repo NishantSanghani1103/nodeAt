@@ -1,4 +1,5 @@
 import { loginController, registerController } from "./auth.controller.js";
+import { bookMarksAddController, bookMarksViewByUserController } from "./bookMark.controller.js";
 import { commentAddController, commentViewPostController } from "./comment.controller.js";
 import { followController, unfollowController } from "./follow.controller.js";
 import { likeAddController, likeDeleteController, likeViewAllController, likeViewByUserIdController } from "./like.controller.js";
@@ -19,5 +20,7 @@ export {
     likeAddController,
     likeViewByUserIdController,
     likeDeleteController,
-    likeViewAllController
+    likeViewAllController,
+    bookMarksAddController,
+    bookMarksViewByUserController
 }
