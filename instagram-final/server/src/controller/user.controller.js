@@ -6,11 +6,11 @@ export const userViewController = async (req, res) => {
     try {
         const { userId } = req
         const data=await userViewService(userId)
-        
         return response(res, {
             status: true,
             statusCode: 200,
             data,
+            staticPath:process.env.PROFILE_IMAGE_STATICPATH,
             message: messages.general.OK
         })
     } catch (error) {

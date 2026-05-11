@@ -1,6 +1,6 @@
 import { messages } from "../messages/index.js"
 import { loginService, registerService } from "../services/index.js"
-import { response } from "../utils/index.js"
+import { response, token } from "../utils/index.js"
 
 export const registerController = async (req, res) => {
     try {
@@ -35,8 +35,9 @@ export const loginController = async (req, res) => {
         return response(res, {
             status: false,
             statusCode: 200,
-            data,
-            message: messages.auth.SIGNIN_SUCCESS
+            message: messages.auth.SIGNIN_SUCCESS,
+            data: data.obj,
+            token: data.tokenValue,
         })
     } catch (error) {
         return response(res, {

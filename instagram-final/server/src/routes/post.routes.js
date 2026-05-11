@@ -1,6 +1,6 @@
 import express from "express"
 import { checkToken } from "../middleware/index.js"
-import { postAddController, postAllViewController, postViewController } from "../controller/index.js"
+import { postAddController, postAllViewController, postViewByIdController, postViewController } from "../controller/index.js"
 import { uploads } from "../utils/index.js"
 import { postValidation, validateRequest } from "../validation/index.js"
 
@@ -15,5 +15,6 @@ postRoutes.post("/add",
     postAddController
 )
 
-postRoutes.get("/view",checkToken,postViewController)
-postRoutes.get("/view-all",postAllViewController)
+postRoutes.get("/view", checkToken, postViewController)
+postRoutes.get("/view-all", postAllViewController)
+postRoutes.get("/view/:id",postViewByIdController)

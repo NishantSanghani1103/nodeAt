@@ -1,5 +1,5 @@
 import { messages } from "../messages/index.js"
-import { postAddService, postAllViewService, postViewService } from "../services/index.js"
+import { postAddService, postAllViewService, postViewByIdService, postViewService } from "../services/index.js"
 import { response } from "../utils/index.js"
 
 export const postAddController = async (req, res) => {
@@ -51,8 +51,27 @@ export const postViewController = async (req, res) => {
 
 export const postAllViewController = async (req, res) => {
     try {
-        
+
         const data = await postAllViewService()
+        return response(res, {
+            status: true,
+            statusCode: 200,
+            message: messages.general.OK,
+            data
+        })
+    } catch (error) {
+        return response(res, {
+            status: false,
+            statusCode: 500,
+            message: error.message
+        })
+    }
+}
+
+export const postViewByIdController = async (req, res) => {
+    try {
+        const { id } = req.params
+        const data = await postViewByIdService(id)
         return response(res, {
             status: true,
             statusCode: 200,

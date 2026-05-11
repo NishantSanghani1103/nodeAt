@@ -28,9 +28,11 @@ export const loginService = async (data, user) => {
             name,
             email
         }
+        console.log(name);
+        
         const tokenValue = token(obj,process.env.TOKENKEY)
 
-        return tokenValue
+        return {tokenValue,obj}
     } catch (error) {
         throw error
     }

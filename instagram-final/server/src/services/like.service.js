@@ -49,7 +49,7 @@ export const likeViewAllService = async () => {
                     attributes: ["id", "image", "caption"]
                 }
             ],
-            order:[["createdAt","DESC"]]
+            order: [["createdAt", "DESC"]]
         }
         )
 
@@ -102,6 +102,27 @@ export const likeDeleteService = async (userId, data) => {
         })
 
         return res
+    } catch (error) {
+        throw error
+    }
+}
+
+export const likeViewByPostIdService = async (postId) => {
+    try {
+        const data = await likeModel.findAll({
+            where: {
+                postId
+            },
+            include: [
+                {
+                    model: userModel,
+                    as:"user",
+                    attributes:["userName","profilePicture"]
+                }
+            ]
+        })
+
+        return data
     } catch (error) {
         throw error
     }

@@ -1,14 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-  FiX,
-  FiHeart,
-  FiMessageCircle,
-  FiSend,
-  FiBookmark,
-  FiMoreHorizontal,
+    FiX,
+    FiHeart,
+    FiMessageCircle,
+    FiSend,
+    FiBookmark,
+    FiMoreHorizontal,
 } from "react-icons/fi";
+import { useNavigate, useParams } from 'react-router-dom';
+import { postViewByIdApi } from '../services/post.service';
 
 export default function PostViewModel() {
+    const { id } = useParams()
+    const navigate = useNavigate();
+    const [postData, setpostData] = useState({})
+    // const images = [
+    //     "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+    //     "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+    //     "https://images.unsplash.com/photo-1493246507139-91e8fad9978e"
+    // ];
+    const [images, setImages] = useState([])
+    const [currentImage, setCurrentImage] = useState(0);
+    useEffect(() => {
+        const getSinglePost = async () => {
+            try {
+                const res = await postViewByIdApi(id)
+                setImages(res?.data?.data?.imageUrl)
+                setpostData(res?.data?.data)
+            } catch (error) {
+                console.log(error?.message);
+
+            }
+        }
+        getSinglePost()
+    }, [])
+
     return (
         <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center px-4 py-6">
 
@@ -19,13 +45,59 @@ export default function PostViewModel() {
                 <div className="flex flex-col lg:flex-row">
 
                     {/* ================= LEFT IMAGE ================= */}
-                    <div className="flex-1 bg-black">
+                    <div className="flex-1 bg-black relative overflow-hidden">
 
+                        {/* Images */}
                         <img
-                            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb"
+                            src={images[currentImage]}
                             alt="post"
-                            className="w-full h-[300px] sm:h-[500px] lg:h-[850px] object-cover"
+                            className="w-full h-[300px] sm:h-[500px]  object-cover"
                         />
+                        {/* Left Arrow */}
+                        {
+                            currentImage > 0 && (
+                                <button
+                                    onClick={() => setCurrentImage(currentImage - 1)}
+                                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white p-2 rounded-full"
+                                >
+                                    ❮
+                                </button>
+                            )
+                        }
+
+                        {/* Right Arrow */}
+                        {
+                            currentImage < images.length - 1 && (
+                                <button
+                                    onClick={() => setCurrentImage(currentImage + 1)}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white p-2 rounded-full"
+                                >
+                                    ❯
+                                </button>
+                            )
+                        }
+
+                        {/* Dots */}
+                        {
+                            images?.length > 1 && (
+                                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+
+                                    {
+                                        images?.map((_, index) => (
+                                            <button
+                                                key={index}
+                                                onClick={() => setCurrentImage(index)}
+                                                className={`w-2 h-2 rounded-full ${currentImage === index
+                                                    ? "bg-white"
+                                                    : "bg-white/40"
+                                                    }`}
+                                            />
+                                        ))
+                                    }
+
+                                </div>
+                            )
+                        }
 
                     </div>
 
@@ -47,7 +119,7 @@ export default function PostViewModel() {
                                 <div>
 
                                     <h3 className="text-sm font-semibold">
-                                        john_doe
+                                        {postData?.user?.userName}
                                     </h3>
 
                                     <p className="text-xs text-gray-500">
@@ -63,7 +135,9 @@ export default function PostViewModel() {
 
                                 <FiMoreHorizontal className="text-xl cursor-pointer" />
 
-                                <FiX className="text-2xl cursor-pointer" />
+                                <FiX onClick={() => {
+                                    navigate(-1)
+                                }} className="text-2xl cursor-pointer" />
 
                             </div>
 
@@ -85,11 +159,12 @@ export default function PostViewModel() {
                                     <p className="text-sm">
 
                                         <span className="font-semibold mr-2">
-                                            john_doe
+                                            {postData?.user?.userName}
                                         </span>
 
-                                        Exploring beautiful mountains and enjoying
-                                        peaceful nature vibes 🌿🏔️
+                                        {
+                                            postData?.caption
+                                        }
 
                                     </p>
 
@@ -102,76 +177,50 @@ export default function PostViewModel() {
                             </div>
 
                             {/* Comment 1 */}
-                            <div className="flex gap-3">
+                            {
+                                postData?.comments?.map((value, index) => {
+                                    return (
+                                        <div className="flex gap-3">
 
-                                <img
-                                    src="https://i.pravatar.cc/150?img=20"
-                                    className="w-9 h-9 rounded-full object-cover"
-                                />
+                                            <img
+                                                src="https://i.pravatar.cc/150?img=20"
+                                                className="w-9 h-9 rounded-full object-cover"
+                                            />
 
-                                <div className="flex-1">
+                                            <div className="flex-1">
 
-                                    <p className="text-sm">
+                                                <p className="text-sm">
 
-                                        <span className="font-semibold mr-2">
-                                            alex
-                                        </span>
+                                                    <span className="font-semibold mr-2">
+                                                        {value.user.userName}
+                                                    </span>
 
-                                        Amazing picture 😍
+                                                    {value.text}
 
-                                    </p>
+                                                </p>
 
-                                    <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                                                <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
 
-                                        <p>1h</p>
+                                                    <p>1h</p>
 
-                                        <p className="cursor-pointer">
-                                            Reply
-                                        </p>
+                                                    <p className="cursor-pointer">
+                                                        Reply
+                                                    </p>
 
-                                    </div>
+                                                </div>
 
-                                </div>
+                                            </div>
 
-                                <FiHeart className="text-sm cursor-pointer mt-1" />
+                                            <FiHeart className="text-sm cursor-pointer mt-1" />
 
-                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
 
-                            {/* Comment 2 */}
-                            <div className="flex gap-3">
 
-                                <img
-                                    src="https://i.pravatar.cc/150?img=22"
-                                    className="w-9 h-9 rounded-full object-cover"
-                                />
 
-                                <div className="flex-1">
 
-                                    <p className="text-sm">
-
-                                        <span className="font-semibold mr-2">
-                                            emma
-                                        </span>
-
-                                        Love this view 🌄
-
-                                    </p>
-
-                                    <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
-
-                                        <p>45m</p>
-
-                                        <p className="cursor-pointer">
-                                            Reply
-                                        </p>
-
-                                    </div>
-
-                                </div>
-
-                                <FiHeart className="text-sm cursor-pointer mt-1" />
-
-                            </div>
 
                         </div>
 
@@ -197,12 +246,16 @@ export default function PostViewModel() {
 
                             {/* Likes */}
                             <p className="text-sm font-semibold mt-4">
-                                24,582 likes
+                                {postData?.likes?.length} likes
                             </p>
 
                             {/* Time */}
                             <p className="text-xs text-gray-500 mt-1 uppercase">
-                                MAY 10, 2026
+                                {new Date(postData?.createdAt).toLocaleDateString("en-IN", {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric",
+                                })}
                             </p>
 
                         </div>

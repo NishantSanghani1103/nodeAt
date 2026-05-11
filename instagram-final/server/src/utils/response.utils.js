@@ -1,7 +1,8 @@
-export const response = async(res, returnResponse) => {
+export const response = async (res, returnResponse) => {
 
-    let { status, statusCode, message, data, count, error, token } = returnResponse;
+    let { status, statusCode, message, data, count, error, token, staticPath } = returnResponse;
     // console.log(message);
+    // console.log(staticPath);
 
 
     if (statusCode === 500) {
@@ -14,6 +15,8 @@ export const response = async(res, returnResponse) => {
     return res.status(statusCode).json({
         status,
         message,
-        data
+        ...(staticPath && { staticPath }),
+        data,
+        ...(token && { token })
     });
 };

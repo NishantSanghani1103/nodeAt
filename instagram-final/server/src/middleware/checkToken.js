@@ -3,6 +3,8 @@ import { response, verify } from "../utils/index.js"
 
 export const checkToken = (req, res, next) => {
     const token = req?.headers?.authorization?.split(" ")[1]
+    // console.log(token);
+    
     if (!token) {
         return response(res, {
             status: false,

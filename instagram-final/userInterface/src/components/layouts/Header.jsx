@@ -6,7 +6,9 @@ import {
     FiSend,
     FiPlusSquare,
 } from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
 export default function Header() {
+    const navigate = useNavigate()
     return (
         <header className="w-full border-b border-gray-300 bg-white sticky top-0 z-50 ">
 
@@ -45,6 +47,9 @@ export default function Header() {
                     {/* Profile */}
                     <img
                         src="https://i.pravatar.cc/150?img=12"
+                        onClick={() => {
+                            navigate("/profile")
+                        }}
                         alt="profile"
                         className="w-8 h-8 rounded-full object-cover cursor-pointer"
                     />

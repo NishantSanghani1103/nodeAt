@@ -1,6 +1,52 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FiFacebook } from "react-icons/fi";
+import { toast } from 'react-toastify';
+import { loginApi } from '../../../../../services/auth.service';
+import { useAuth } from '../../../../../utils/user.utils';
+import { useDispatch } from 'react-redux';
+import { logIn } from '../../../../../slice/userSlice';
+import { useNavigate } from 'react-router-dom';
 export default function SingnIn() {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const [loginData, setloginData] = useState({
+        email: "",
+        password: ""
+    })
+
+    const { user, token } = useAuth()
+
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+        // console.log(loginData);
+
+        try {
+            const res = await loginApi(loginData)
+            toast.success(res?.data?.message)
+            dispatch(logIn({
+                token: res?.data?.token,
+                user: res?.data?.data?.email
+            }))
+            setTimeout(() => {
+                navigate("/home")
+            }, 2000)
+        } catch (error) {
+            toast.error(error?.response?.data?.message || error?.message)
+        }
+    }
+    const handleChange = (event) => {
+        const { name, value } = event.target
+        setloginData({
+            ...loginData,
+            [name]: value
+        })
+    }
+
+    useEffect(() => {
+        if (user) {
+          return  navigate("/profile")
+        }
+    }, [])
     return (
         <div className="bg-gray-100 min-h-screen flex items-center justify-center px-4">
 
@@ -16,30 +62,36 @@ export default function SingnIn() {
                     </h1>
 
                     {/* Form */}
-                    <div className="space-y-3">
+                    <form action="" onSubmit={handleSubmit}>
+                        <div className="space-y-3">
 
-                        {/* Username Input */}
-                        <input
-                            type="text"
-                            placeholder="Phone number, username, or email"
-                            className="w-full h-11 border border-gray-300 bg-gray-50 rounded-sm px-3 text-sm outline-none focus:border-gray-400"
-                        />
+                            {/* Username Input */}
+                            <input
+                                type="text"
+                                placeholder="email"
+                                name='email'
+                                className="w-full h-11 border border-gray-300 bg-gray-50 rounded-sm px-3 text-sm outline-none focus:border-gray-400"
+                                onChange={handleChange}
+                            />
 
-                        {/* Password Input */}
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            className="w-full h-11 border border-gray-300 bg-gray-50 rounded-sm px-3 text-sm outline-none focus:border-gray-400"
-                        />
+                            {/* Password Input */}
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                name='password'
+                                className="w-full h-11 border border-gray-300 bg-gray-50 rounded-sm px-3 text-sm outline-none focus:border-gray-400"
+                                onChange={handleChange}
+                            />
 
-                        {/* Login Button */}
-                        <button className="w-full h-10 bg-blue-500 hover:bg-blue-600 transition rounded-md text-white font-semibold text-sm">
+                            {/* Login Button */}
+                            <button type='submit' className="w-full h-10 bg-blue-500 hover:bg-blue-600 transition rounded-md text-white font-semibold text-sm">
 
-                            Log In
+                                Log In
 
-                        </button>
+                            </button>
 
-                    </div>
+                        </div>
+                    </form>
 
                     {/* OR Divider */}
                     <div className="flex items-center gap-4 my-6">

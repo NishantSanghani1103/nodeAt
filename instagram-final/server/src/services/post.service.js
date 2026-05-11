@@ -96,6 +96,10 @@ export const postAllViewService = async () => {
                     attributes: ["userName", "profilePicture"]
                 },
                 {
+                    model:likeModel,
+                    as:"likes"
+                },
+                {
                     model: commentModel,
                     as: "comments",
                     attributes: ["id", "text"],
@@ -117,6 +121,48 @@ export const postAllViewService = async () => {
         })
 
         return data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const postViewByIdService = async (id) => {
+    try {
+        const res = await postModel.findByPk(id, {
+            include: [
+                {
+                    model: userModel,
+                    as:"user",
+                    attributes:["profilePicture","userName"]
+                },
+                {
+
+                    model: likeModel,
+                    as: "likes"
+
+                },
+                {
+                    model: commentModel,
+                    as: "comments",
+                    attributes: ["id", "text"],
+                    include: [
+                        {
+                            model: postModel,
+                            as: "posts",
+                            attributes: ["id", "caption", "image"]
+                        },
+                        {
+                            model: userModel,
+                            as: "user",
+                            attributes: ["userName", "profilePicture"]
+                        }
+
+                    ]
+                }
+            ]
+        })
+
+        return res
     } catch (error) {
         throw error
     }

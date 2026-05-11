@@ -1,4 +1,5 @@
-import React from 'react'
+/* eslint-disable react-hooks/set-state-in-effect */
+import React, { useEffect, useState } from 'react'
 import Stories from '../../../components/story/Stories'
 import {
     FiHeart,
@@ -7,195 +8,143 @@ import {
     FiBookmark,
     FiMoreHorizontal,
 } from "react-icons/fi";
+import { postViewAllApi } from '../../../services/post.service';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../utils/user.utils';
+import LikeModel from '../../../components/LikeModel';
 export default function Home() {
+    const [postData, setpostData] = useState([])
+    const [likeData, setlikeData] = useState([])
+    const [likeModel, setlikeModel] = useState(false)
+    const navigate = useNavigate()
+    const { user } = useAuth()
+    const getPost = async () => {
+        try {
+            const res = await postViewAllApi()
+            setpostData(res?.data?.data)
+
+        } catch (error) {
+            console.log(error?.message);
+
+        }
+    }
+    useEffect(() => {
+        if (!user) {
+            return navigate("/")
+        }
+        getPost()
+
+    }, [])
     return (
         <div>
             <Stories />
-            <div className="w-full bg-white border border-gray-300 rounded-md overflow-hidden">
+            {
+                postData?.map((value, index) => {
 
-                {/* Post Header */}
-                <div className="flex items-center justify-between px-4 py-3">
+                    return (
+                        <div className="w-full bg-white border border-gray-300 rounded-md overflow-hidden">
 
-                    {/* Left Side */}
-                    <div className="flex items-center gap-3">
+                            {/* Post Header */}
+                            <div className="flex items-center justify-between px-4 py-3">
 
-                        <img
-                            src="https://i.pravatar.cc/150?img=20"
-                            alt="profile"
-                            className="w-10 h-10 rounded-full object-cover"
-                        />
+                                {/* Left Side */}
+                                <div className="flex items-center gap-3">
 
-                        <div>
-                            <h3 className="text-sm font-semibold text-black">
-                                traveler_world
-                            </h3>
+                                    <img
+                                        src="https://i.pravatar.cc/150?img=20"
+                                        alt="profile"
+                                        className="w-10 h-10 rounded-full object-cover"
+                                    />
 
-                            <p className="text-xs text-gray-500">
-                                Switzerland
-                            </p>
-                        </div>
+                                    <div>
+                                        <h3 className="text-sm font-semibold text-black">
+                                            {value.user.userName}
+                                        </h3>
 
-                    </div>
 
-                    {/* Right Side */}
-                    <FiMoreHorizontal className="text-xl cursor-pointer text-black" />
+                                    </div>
 
-                </div>
+                                </div>
 
-                {/* Post Image */}
-                <div className="w-full">
+                                {/* Right Side */}
+                                <FiMoreHorizontal className="text-xl cursor-pointer text-black" />
 
-                    <img
-                        src="https://images.unsplash.com/photo-1506744038136-46273834b3fb"
-                        alt="post"
-                        className="w-full h-[300px] md:h-[550px] object-cover"
-                    />
+                            </div>
 
-                </div>
+                            {/* Post Image */}
 
-                {/* Post Actions */}
-                <div className="px-4 py-3">
 
-                    {/* Top Actions */}
-                    <div className="flex items-center justify-between">
+                            <div className="w-full">
 
-                        {/* Left Icons */}
-                        <div className="flex items-center gap-4">
+                                <img
+                                    src={value.imageUrl[0]}
+                                    alt="post"
+                                    className="w-full h-[300px] md:h-[550px] object-cover"
+                                />
 
-                            <FiHeart className="text-2xl cursor-pointer hover:text-gray-500 transition" />
+                            </div>
 
-                            <FiMessageCircle className="text-2xl cursor-pointer hover:text-gray-500 transition" />
+                            {/* Post Actions */}
+                            <div className="px-4 py-3">
 
-                            <FiSend className="text-2xl cursor-pointer hover:text-gray-500 transition" />
+                                {/* Top Actions */}
+                                <div className="flex items-center justify-between">
 
-                        </div>
+                                    {/* Left Icons */}
+                                    <div className="flex items-center gap-4">
 
-                        {/* Save Icon */}
-                        <FiBookmark className="text-2xl cursor-pointer hover:text-gray-500 transition" />
+                                        <FiHeart className="text-2xl cursor-pointer hover:text-gray-500 transition" />
 
-                    </div>
+                                        <FiMessageCircle className="text-2xl cursor-pointer hover:text-gray-500 transition" />
 
-                    {/* Likes */}
-                    <p className="text-sm font-semibold mt-4 text-black">
-                        12,482 likes
-                    </p>
+                                        <FiSend className="text-2xl cursor-pointer hover:text-gray-500 transition" />
 
-                    {/* Caption */}
-                    <div className="mt-2 text-sm text-black">
+                                    </div>
 
-                        <span className="font-semibold mr-2">
-                            traveler_world
-                        </span>
+                                    {/* Save Icon */}
+                                    <FiBookmark className="text-2xl cursor-pointer hover:text-gray-500 transition" />
 
-                        Beautiful mountains and nature view 🌿🏔️
-                    </div>
+                                </div>
 
-                    {/* Comments */}
-                    <p className="text-sm text-gray-500 mt-2 cursor-pointer">
-                        View all 245 comments
-                    </p>
+                                {/* Likes */}
+                                <p onClick={() =>navigate(`/like-view/${value.id}`)} className="text-sm cursor-pointer font-semibold mt-4 text-black">
+                                    {value?.likes?.length} likes
+                                </p>
 
-                    {/* Time */}
-                    <p className="text-xs text-gray-400 mt-2 uppercase">
-                        2 HOURS AGO
-                    </p>
+                                {/* Caption */}
+                                <div className="mt-2 text-sm text-black">
 
-                </div>
+                                    <span className="font-semibold mr-2">
+                                        {value?.user?.userName}
+                                    </span>
 
-            </div>
+                                    {value.caption}
+                                </div>
 
-            <div className="w-full bg-white border border-gray-300 rounded-md overflow-hidden">
+                                {/* Comments */}
+                                <p onClick={() => navigate(`/post-view/${value.id}`)} className="text-sm text-gray-500 mt-2 cursor-pointer">
+                                    {
+                                        value?.comments?.length != 0
+                                        &&
+                                        `View all ${value?.comments?.length} comments`
+                                    }
 
-                {/* Post Header */}
-                <div className="flex items-center justify-between px-4 py-3">
+                                </p>
 
-                    {/* Left Side */}
-                    <div className="flex items-center gap-3">
+                                {/* Time */}
+                                <p className="text-xs text-gray-400 mt-2 uppercase">
+                                    2 HOURS AGO
+                                </p>
 
-                        <img
-                            src="https://i.pravatar.cc/150?img=20"
-                            alt="profile"
-                            className="w-10 h-10 rounded-full object-cover"
-                        />
-
-                        <div>
-                            <h3 className="text-sm font-semibold text-black">
-                                traveler_world
-                            </h3>
-
-                            <p className="text-xs text-gray-500">
-                                Switzerland
-                            </p>
-                        </div>
-
-                    </div>
-
-                    {/* Right Side */}
-                    <FiMoreHorizontal className="text-xl cursor-pointer text-black" />
-
-                </div>
-
-                {/* Post Image */}
-                <div className="w-full">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1506744038136-46273834b3fb"
-                        alt="post"
-                        className="w-full h-[300px] md:h-[550px] object-cover"
-                    />
-
-                </div>
-
-                {/* Post Actions */}
-                <div className="px-4 py-3">
-
-                    {/* Top Actions */}
-                    <div className="flex items-center justify-between">
-
-                        {/* Left Icons */}
-                        <div className="flex items-center gap-4">
-
-                            <FiHeart className="text-2xl cursor-pointer hover:text-gray-500 transition" />
-
-                            <FiMessageCircle className="text-2xl cursor-pointer hover:text-gray-500 transition" />
-
-                            <FiSend className="text-2xl cursor-pointer hover:text-gray-500 transition" />
+                            </div>
 
                         </div>
+                    )
+                })
+            }
 
-                        {/* Save Icon */}
-                        <FiBookmark className="text-2xl cursor-pointer hover:text-gray-500 transition" />
 
-                    </div>
 
-                    {/* Likes */}
-                    <p className="text-sm font-semibold mt-4 text-black">
-                        12,482 likes
-                    </p>
-
-                    {/* Caption */}
-                    <div className="mt-2 text-sm text-black">
-
-                        <span className="font-semibold mr-2">
-                            traveler_world
-                        </span>
-
-                        Beautiful mountains and nature view 🌿🏔️
-                    </div>
-
-                    {/* Comments */}
-                    <p className="text-sm text-gray-500 mt-2 cursor-pointer">
-                        View all 245 comments
-                    </p>
-
-                    {/* Time */}
-                    <p className="text-xs text-gray-400 mt-2 uppercase">
-                        2 HOURS AGO
-                    </p>
-
-                </div>
-
-            </div>
         </div>
     )
 }

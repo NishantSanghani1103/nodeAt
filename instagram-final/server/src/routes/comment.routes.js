@@ -5,5 +5,4 @@ import { commentValidation, validateRequest } from "../validation/index.js"
 
 export const commentRoutes = express.Router()
 commentRoutes.post("/add", checkToken, commentValidation, validateRequest, checkAddComment,commentAddController)
-
 commentRoutes.get("/view/:postId",commentViewPostController)

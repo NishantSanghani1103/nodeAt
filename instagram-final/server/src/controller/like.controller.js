@@ -1,5 +1,5 @@
 import { messages } from "../messages/index.js"
-import { likeAddService, likeDeleteService, likeViewAllService, likeViewByUserIdService } from "../services/index.js"
+import { likeAddService, likeDeleteService, likeViewAllService, likeViewByPostIdService, likeViewByUserIdService } from "../services/index.js"
 import { response } from "../utils/index.js"
 
 export const likeAddController = async (req, res) => {
@@ -71,6 +71,28 @@ export const likeDeleteController = async (req, res) => {
             message: messages.post.UNLIKED,
             data
         })
+    } catch (error) {
+        return response(res, {
+            status: false,
+            statusCode: 500,
+            message: error.message
+        })
+    }
+}
+
+
+export const likeViewByPostIdController = async (req, res) => {
+    try {
+        const { postId } = req.params
+
+        const data = await likeViewByPostIdService(postId)
+        return response(res, {
+            status: true,
+            statusCode: 200,
+            message: messages.general.OK,
+            data
+        })
+
     } catch (error) {
         return response(res, {
             status: false,

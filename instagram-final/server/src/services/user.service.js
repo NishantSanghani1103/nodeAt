@@ -1,7 +1,7 @@
 import { bookmarkModel, commentModel, followModel, likeModel, postModel, userModel } from "../model/index.js"
 
 export const userViewService = async(userId) => {
-    const data = await userModel.findAll({
+    const data = await userModel.findOne({
             where: {
                 id: userId
             },
