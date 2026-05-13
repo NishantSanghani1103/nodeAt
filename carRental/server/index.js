@@ -1,11 +1,6 @@
-import { app } from "./src/app.js"
-import { sequelize } from "./src/config/db.js";
+import env from "dotenv"
+import { connectDB } from "./src/config/index.js"
+import "./src/models/index.js"
+env.config()
 const port = process.env.PORT
-sequelize.sync()
-    .then(() => {
-        console.log(`Database Conneted : ${process.env.DB_NAME}`);
-        app.listen(port, () => {
-            console.log(`Server running on port ${port}`);
-        });
-    })
-    .catch(err => console.log(err.message));
+connectDB()

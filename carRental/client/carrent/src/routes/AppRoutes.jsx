@@ -44,11 +44,11 @@ export const routes = createBrowserRouter([
                         element:<AddCar/>
                     },
                     {
-                        path:"/admin/manage/car",
+                        path:"manage/car",
                         element:<ManageCar/>
                     },
                     {
-                        path:"/admin/manage/booking",
+                        path:"manage/booking",
                         element:<ManageBookings/>
                     }
                 ]
